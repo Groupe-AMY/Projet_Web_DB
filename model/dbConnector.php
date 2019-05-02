@@ -1,12 +1,12 @@
 <?php
 /**
  * Author   : nicolas.glassey@cpnv.ch
- * Project  : Epreuve_151
+ * Project  : Projet web DB
  * Created  : 09.04.2019 - 13:48
  *
- * Last update :    [01.12.2018 author]
- *                  [add $logName in function setFullPath]
- * Git source  :    [link]
+ * Last update :    03.05.2019 yannick.baudraz@cpnv.ch
+   *                  modified username database to "appliUser"
+ * Git source  :    https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/model/dbConnector.php
  */
 
 /**
@@ -60,7 +60,7 @@ function openDBConnexion (){
     $port = 3306;
     $charset = 'utf8';
     $dbName = 'teaching';
-    $userName = 'appliConnector';
+    $userName = 'appliUser';
     $userPwd = '123qweasD$';
     $dsn = $sqlDriver . ':host=' . $hostname . ';dbname=' . $dbName . ';port=' . $port . ';charset=' . $charset;
 

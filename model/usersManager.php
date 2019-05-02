@@ -20,7 +20,7 @@ function isLoginCorrect($userEmailAddress, $userPsw)
 {
   $result = false;
 
-  $loginQuery = "SELECT userHashPsw FROM users WHERE userEmailAddress = ' . $userEmailAddress .'";
+  $loginQuery = "SELECT userHashPsw FROM users WHERE userEmailAddress = '$userEmailAddress '";
 
   require_once 'model/dbConnector.php';
   $queryResult = executeQuerySelect($loginQuery);

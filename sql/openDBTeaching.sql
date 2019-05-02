@@ -20,7 +20,7 @@ USE `teaching`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userEmailAddress` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-  `userPsw` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
+  `userHashPsw` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `pseudo` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `userEmailAddress` (`userEmailAddress`)
@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- Dumping data for table snows.users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `userEmailAddress`, `userPsw`, `pseudo`) VALUES
-	(1, 'testUser@cpnv.ch', 'azerty', 'testPseudo');
+INSERT INTO `users` (`id`, `userEmailAddress`, `userHashPsw`, `pseudo`) VALUES
+	(1, 'testUser@cpnv.ch', '$2y$10$J13bxPvRUoGcSEoLo/WVTe2CYnv9UC7GvW5uoYghUgos1xXLGXiAK', 'testPseudo');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
