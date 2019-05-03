@@ -33,3 +33,27 @@ function isLoginCorrect($userEmailAddress, $userPsw)
 
   return $result;
 }
+
+/**
+ * Register a new account
+ *
+ * @param $userEmailAddress : user's mail
+ * @param $userPsw          : user's password
+ * @return bool|null        : result of the request in the database
+ */
+function registerNewAccount($userEmailAddress, $userPsw)
+{
+  $result = false;
+
+  $userHashPsw = password_hash($userPsw, PASSWORD_DEFAULT);
+
+  $registerQuery
+      = "INSERT INTO users (`userEmailAddress`, `userHashPsw`) VALUES ('$userEmailAddress','$userHashPsw')";
+
+  require_once 'model/dbConnector.php';
+  $queryResult = executeQueryInsert($registerQuery);
+  if ($queryResult)
+    $result = $queryResult;
+
+  return $result;
+}
