@@ -35,9 +35,17 @@
         <ul>
             <li><a href="index.php?action=home">Home</a></li>
             <li><a href="#" title="">Nos Cours</a></li>
-            <li><a href="index.php?action=openLogin">Login</a></li>
-            <li><a href="index.php?action=openRegister" style="color:#FC05CB">Register</a></li>
+            <?php if (!isset($_SESSION['userEmailAddress']) || (!isset($_GET['action']))
+                || ((@$_GET['action'] == "logout"))) : ?>
+                <li><a href="index.php?action=login">Login</a></li>
+                <li><a href="index.php?action=register" style="color:#FC05CB">Register</a></li>
+            <?php else : ?>
+                <li><a href="index.php?action=logout">Logout</a></li>
+            <?php endif; ?>
         </ul>
+        <?php if (isset($_SESSION['userEmailAddress'])) : ?>
+            <h6>Vous êtes connecté : <?= $_SESSION['userEmailAddress']; ?></h6>
+        <?php endif; ?>
     </div>
 </div>
 <div id="page-wrapper">

@@ -48,7 +48,7 @@ function registerNewAccount($userEmailAddress, $userPsw)
   $userHashPsw = password_hash($userPsw, PASSWORD_DEFAULT);
 
   $registerQuery
-      = "INSERT INTO users (`userEmailAddress`, `userHashPsw`) VALUES ('$userEmailAddress','$userHashPsw')";
+      = "INSERT INTO users (userEmailAddress, userHashPsw ,pseudo) VALUES ('$userEmailAddress','$userHashPsw',' ')";
 
   require_once 'model/dbConnector.php';
   $queryResult = executeQueryInsert($registerQuery);
