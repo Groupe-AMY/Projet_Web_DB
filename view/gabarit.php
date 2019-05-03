@@ -29,14 +29,14 @@
 <body>
 <div id="header" class="container">
     <div id="logo">
-        <h1><a href="#">MyPrivateTeacher</a></h1>
+        <h1><a href="index.php?action=home">MyPrivateTeacher</a></h1>
     </div>
     <div id="menu">
         <ul>
             <li><a href="index.php?action=home">Home</a></li>
             <li><a href="#" title="">Nos Cours</a></li>
-            <li><a href="#">Login</a></li>
-            <li><a href="#" style="color:#FC05CB">Register</a></li>
+            <li><a href="index.php?action=openLogin">Login</a></li>
+            <li><a href="index.php?action=openRegister" style="color:#FC05CB">Register</a></li>
         </ul>
     </div>
 </div>
