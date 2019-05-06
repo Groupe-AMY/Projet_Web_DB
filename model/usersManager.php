@@ -1,59 +1,80 @@
 <?php
 /**
- * Author   : yannick.baudraz@cpnv.ch
- * Project  : Projet web BD
- * Created  : 03.05.2019
+ * This php file is designed to manage all operations regarding user's management
+ * Author   : nicolas.glassey@cpnv.ch
+ * Project  : Code
+ * Created  : 31.01.2019 - 18:40
  *
- * Last update :    05.03.2019 yannick.baudraz@cpnv.ch
- *                    function isLoginCorrect() added
- * Git source  :    https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/model/usersManager.php
+ * Last update :    [01.12.2018 author]
+ *                  [add $logName in function setFullPath]
+ * Source       :   pascal.benzonana
  */
 
 /**
- * Verify the user's login
- *
- * @param string $userEmailAddress : user's mail to request
- * @param string $userPsw          : user's password to verify with the password in the database
+ * This function is designed to verify user's login
+ * @param $userEmailAddress
+ * @param $userPsw
  * @return bool : "true" only if the user and psw match the database. In all other cases will be "false".
  */
-function isLoginCorrect($userEmailAddress, $userPsw)
-{
-  $result = false;
+function isLoginCorrect($userEmailAddress, $userPsw){
+    $result = false;
 
-  $loginQuery = "SELECT userHashPsw FROM users WHERE userEmailAddress = '$userEmailAddress '";
+    $strSeparator = '\'';
+    $loginQuery = 'SELECT userHashPsw FROM users WHERE userEmailAddress = '. $strSeparator . $userEmailAddress . $strSeparator;
 
-  require_once 'model/dbConnector.php';
-  $queryResult = executeQuerySelect($loginQuery);
+    require_once 'model/dbConnector.php';
+    $queryResult = executeQuerySelect($loginQuery);
 
-  // If the user exists
-  if (count($queryResult) == 1) {
-    $userHashPsw = $queryResult[0]['userHashPsw'];
-    $result = password_verify($userPsw, $userHashPsw);
-  }
-
-  return $result;
+    if (count($queryResult) == 1)
+    {
+        $userHashPsw = $queryResult[0]['userHashPsw'];
+        $hashPasswordDebug = password_hash($userPsw, PASSWORD_DEFAULT);
+        $result = password_verify($userPsw, $userHashPsw);
+    }
+    return $result;
 }
 
 /**
- * Register a new account
- *
- * @param $userEmailAddress : user's mail
- * @param $userPsw          : user's password
- * @return bool|null        : result of the request in the database
+ * This function is designed to register a new account
+ * @param $userEmailAddress
+ * @param $userPsw
+ * @return bool|null
  */
-function registerNewAccount($userEmailAddress, $userPsw)
-{
-  $result = false;
+function registerNewAccount($userEmailAddress, $userPsw){
+    $result = false;
 
-  $userHashPsw = password_hash($userPsw, PASSWORD_DEFAULT);
+    $strSeparator = '\'';
 
-  $registerQuery
-      = "INSERT INTO users (userEmailAddress, userHashPsw ,pseudo) VALUES ('$userEmailAddress','$userHashPsw',' ')";
+    $userHashPsw = password_hash($userPsw, PASSWORD_DEFAULT);
 
-  require_once 'model/dbConnector.php';
-  $queryResult = executeQueryInsert($registerQuery);
-  if ($queryResult)
-    $result = $queryResult;
+    $registerQuery = 'INSERT INTO users (`userEmailAddress`, `userHashPsw`) VALUES (' .$strSeparator . $userEmailAddress .$strSeparator . ','.$strSeparator . $userHashPsw .$strSeparator. ')';
 
-  return $result;
+    require_once 'model/dbConnector.php';
+    $queryResult = executeQueryInsert($registerQuery);
+    if($queryResult){
+        $result = $queryResult;
+    }
+    return $result;
+}
+
+/**
+ * This function is designed to get the type of user
+ * For the webapp, it will adapt the behavior of the GUI
+ * @param $userEmailAddress
+ * @return int (1 = customer ; 2 = seller)
+ */
+function getUserType($userEmailAddress){
+    $result = 1;//we fix the result to 1 -> customer
+
+    $strSeparator = '\'';
+
+    $getUserTypeQuery = 'SELECT userType FROM users WHERE users.userEmailAddress =' . $strSeparator . $userEmailAddress . $strSeparator;
+
+    require_once 'model/dbConnector.php';
+    $queryResult = executeQuerySelect($getUserTypeQuery);
+
+    if (count($queryResult) == 1){
+        $result = $queryResult[0]['userType'];
+    }
+    return $result;
 }
