@@ -7,6 +7,8 @@
  *
  * Last update :    08.05.2019 mauro-alexandre.Costa-dos-santos@cpnv.ch
  *                      add button "Finaliser la location"
+ *                  10.05.2019 mauro-alexandre.Costa-dos-santos@cpnv.ch
+ *                      fixed quantity and number of day placement
  * Source       :   [git source]
  */
 
@@ -21,7 +23,7 @@ ob_start();
         <form method="POST" action="index.php?action=displaySnows">
             <table class="table">
                 <tr>
-                    <th>Code</th><th>Date</th><th>Nombre de jours</th><th>Quantité</th><th>Retirer</th>
+                    <th>Code</th><th>Date</th><th>Quantité</th><th>Nombre de Jours</th><th>Retirer</th>
                 </tr>
                 <?php
                 // Displays cart session's content
