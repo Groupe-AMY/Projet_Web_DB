@@ -169,14 +169,15 @@ function snowLeasingRequest($snowCode){
  * @param $snowLocationRequest
  */
 function updateCartRequest($snowCode, $snowLocationRequest){
-    $cartArrayTemp = array();
     if(($snowLocationRequest) AND ($snowCode)) {
-        if (isset($_SESSION['cart'])) {
-            $cartArrayTemp = $_SESSION['cart'];
+        if (!isset($_SESSION['cart'])) {
+           $_SESSION['cart']= array();
         }
         require "model/cartManager.php";
-        $cartArrayTemp = updateCart($cartArrayTemp, $snowCode, $snowLocationRequest['inputQuantity'], $snowLocationRequest['inputDays']);
-        $_SESSION['cart'] = $cartArrayTemp;
+        $cartArrayTemp = updateCart($_SESSION['cart'], $snowCode, $snowLocationRequest['inputQuantity'], $snowLocationRequest['inputDays']);
+        if($cartArrayTemp!=null) {
+            $_SESSION['cart'] = $cartArrayTemp;
+        }
     }
     $_GET['action'] = "displayCart";
     displayCart();
