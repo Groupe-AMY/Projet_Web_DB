@@ -16,7 +16,13 @@ $title = 'Rent A Snow - Demande de location';
 ob_start();
 ?>
 <h2>Demande de location</h2>
-<article>
+    <?php /*if($erreur):*/?>
+    <div class="alert alert-error">
+        <strong>Erreur sur la quantité demandée</strong><br>
+        Qauntité trop èlevée ou inférieur à 1
+    </div>
+<?php /*endif;*/?>
+    <article>
     <h4>Votre choix</h4>
     <table class="table">
         <tr>
