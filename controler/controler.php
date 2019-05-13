@@ -5,7 +5,9 @@
  * Date: 08.05.2017
  * Time: 09:10
  * Updated by : 12-MAR-2019 - nicolas.glassey
- *              Add register function
+ *                  Add register function
+ *              13.05.2019 alexandre.fontes@conv.ch
+ *                  Redirection according to the verification for the location in the cart
  */
 
 /**
@@ -137,7 +139,7 @@ function displaySnows(){
 
 /**
  * This function is designed to get only one snow results (for aSnow view)
- * @param none
+ * @param $snow_code
  */
 function displayASnow($snow_code){
     if (isset($registerRequest['inputUserEmailAddress'])){
@@ -156,7 +158,7 @@ function displayCart(){
 }
 
 
-function snowLeasingRequest($snowCode){
+function snowLeasingRequest($snowCode, $error = false){
      require "model/snowsManager.php";
      $snowsResults = getASnow($snowCode);
      $_GET['action'] = "snowLeasingRequest";
@@ -171,15 +173,18 @@ function snowLeasingRequest($snowCode){
 function updateCartRequest($snowCode, $snowLocationRequest){
     if(($snowLocationRequest) AND ($snowCode)) {
         if (!isset($_SESSION['cart'])) {
-           $_SESSION['cart']= array();
+            $_SESSION['cart'] = array();
         }
         require "model/cartManager.php";
         $cartArrayTemp = updateCart($_SESSION['cart'], $snowCode, $snowLocationRequest['inputQuantity'], $snowLocationRequest['inputDays']);
-        if($cartArrayTemp!=null) {
+        if ($cartArrayTemp != null) {
             $_SESSION['cart'] = $cartArrayTemp;
+            $_GET['action'] = "displayCart";
+            displayCart();
+        } else {
+            snowLeasingRequest($snowCode, true);
         }
     }
-    $_GET['action'] = "displayCart";
-    displayCart();
+
 }
 //endregion
