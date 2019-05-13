@@ -14,7 +14,8 @@
  * This function is designed to redirect the user to the home page (depending on the action received by the index)
  */
 
-function home(){
+function home()
+{
     $_GET['action'] = "home";
     require "view/home.php";
 }
@@ -24,7 +25,8 @@ function home(){
  * This function is designed to manage login request
  * @param $loginRequest containing login fields required to authenticate the user
  */
-function login($loginRequest){
+function login($loginRequest)
+{
     //if a login request was submitted
     if (isset($loginRequest['inputUserEmailAddress']) && isset($loginRequest['inputUserPsw'])) {
         //extract login parameters
@@ -43,7 +45,7 @@ function login($loginRequest){
             $_GET['action'] = "login";
             require "view/login.php";
         }
-    }else{ //the user does not yet fill the form
+    } else { //the user does not yet fill the form
         $_GET['action'] = "login";
         require "view/login.php";
     }
@@ -53,7 +55,8 @@ function login($loginRequest){
  * This fonction is designed
  * @param $registerRequest
  */
-function register($registerRequest){
+function register($registerRequest)
+{
     //variable set
     if (isset($registerRequest['inputUserEmailAddress']) && isset($registerRequest['inputUserPsw']) && isset($registerRequest['inputUserPswRepeat'])) {
 
@@ -62,20 +65,20 @@ function register($registerRequest){
         $userPsw = $registerRequest['inputUserPsw'];
         $userPswRepeat = $registerRequest['inputUserPswRepeat'];
 
-        if ($userPsw == $userPswRepeat){
+        if ($userPsw == $userPswRepeat) {
             require_once "model/usersManager.php";
-            if (registerNewAccount($userEmailAddress, $userPsw)){
+            if (registerNewAccount($userEmailAddress, $userPsw)) {
                 createSession($userEmailAddress);
                 $_GET['registerError'] = false;
                 $_GET['action'] = "home";
                 require "view/home.php";
             }
-        }else{
+        } else {
             $_GET['registerError'] = true;
             $_GET['action'] = "register";
             require "view/register.php";
         }
-    }else{
+    } else {
         $_GET['action'] = "register";
         require "view/register.php";
     }
@@ -85,7 +88,8 @@ function register($registerRequest){
  * This function is designed to create a new user session
  * @param $userEmailAddress : user unique id
  */
-function createSession($userEmailAddress){
+function createSession($userEmailAddress)
+{
     $_SESSION['userEmailAddress'] = $userEmailAddress;
     //set user type in Session
     $userType = getUserType($userEmailAddress);
@@ -95,12 +99,14 @@ function createSession($userEmailAddress){
 /**
  * This function is designed to manage logout request
  */
-function logout(){
+function logout()
+{
     $_SESSION = array();
     session_destroy();
     $_GET['action'] = "home";
     require "view/home.php";
 }
+
 //endregion
 
 
@@ -110,7 +116,8 @@ function logout(){
  * There are two different view available.
  * One for the seller, an other one for the customer.
  */
-function displaySnows(){
+function displaySnows()
+{
     if (isset($_POST['resetCart'])) {
         unset($_SESSION['cart']);
     }
@@ -119,8 +126,7 @@ function displaySnows(){
     $snowsResults = getSnows();
 
     $_GET['action'] = "displaySnows";
-    if (isset($_SESSION['userType']))
-    {
+    if (isset($_SESSION['userType'])) {
         switch ($_SESSION['userType']) {
             case 1://this is a customer
                 require "view/snows.php";
@@ -132,7 +138,7 @@ function displaySnows(){
                 require "view/snows.php";
                 break;
         }
-    }else{
+    } else {
         require "view/snows.php";
     }
 }
@@ -141,28 +147,32 @@ function displaySnows(){
  * This function is designed to get only one snow results (for aSnow view)
  * @param $snow_code
  */
-function displayASnow($snow_code){
-    if (isset($registerRequest['inputUserEmailAddress'])){
+function displayASnow($snow_code)
+{
+    if (isset($registerRequest['inputUserEmailAddress'])) {
         //TODO
     }
     require_once "model/snowsManager.php";
-    $snowsResults= getASnow($snow_code);
+    $snowsResults = getASnow($snow_code);
     require "view/aSnow.php";
 }
+
 //endregion
 
 //region Cart Management
-function displayCart(){
+function displayCart()
+{
     $_GET['action'] = "cart";
     require "view/cart.php";
 }
 
 
-function snowLeasingRequest($snowCode, $error = false){
-     require "model/snowsManager.php";
-     $snowsResults = getASnow($snowCode);
-     $_GET['action'] = "snowLeasingRequest";
-     require "view/snowLeasingRequest.php";
+function snowLeasingRequest($snowCode, $error = false)
+{
+    require "model/snowsManager.php";
+    $snowsResults = getASnow($snowCode);
+    $_GET['action'] = "snowLeasingRequest";
+    require "view/snowLeasingRequest.php";
 }
 
 /**
@@ -170,13 +180,17 @@ function snowLeasingRequest($snowCode, $error = false){
  * @param $snowCode
  * @param $snowLocationRequest
  */
-function updateCartRequest($snowCode, $snowLocationRequest){
-    if(($snowLocationRequest) AND ($snowCode)) {
+function updateCartRequest($snowCode, $snowLocationRequest)
+{
+    if (($snowLocationRequest) AND ($snowCode)) {
         if (!isset($_SESSION['cart'])) {
-            $_SESSION['cart'] = array();
+            $cart = array();
+        } else {
+            $cart = $_SESSION['cart'];
         }
+
         require "model/cartManager.php";
-        $cartArrayTemp = updateCart($_SESSION['cart'], $snowCode, $snowLocationRequest['inputQuantity'], $snowLocationRequest['inputDays']);
+        $cartArrayTemp = updateCart($cart, $snowCode, $snowLocationRequest['inputQuantity'], $snowLocationRequest['inputDays']);
         if ($cartArrayTemp != null) {
             $_SESSION['cart'] = $cartArrayTemp;
             $_GET['action'] = "displayCart";
