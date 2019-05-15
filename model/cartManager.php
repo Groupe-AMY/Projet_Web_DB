@@ -28,7 +28,7 @@ function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howMan
     $quantityAll = $qtyOfSnowsToAdd;
     $flagQuantity = false;
 
-    if (!$indexLocation) {
+    if ($indexLocation === null) {
         if ($currentCartArray != null) {
             foreach ($currentCartArray as $index => $location) {
                 if ($snowCodeToAdd === $location["code"]) {
