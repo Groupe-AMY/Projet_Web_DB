@@ -8,6 +8,8 @@
  *                      Fusion of the articles in the cart
  *                  13.05.2019 yannick.baudraz@cpnv.ch
  *                      Function verifyQuantity()
+ *                  15.05.2019 yannick.baudraz@cpnv.ch
+ *                      Function deleteLocation()
  * Git source  :    https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/model/cartManager.php
  */
 
@@ -89,7 +91,7 @@ function verifyQuantity($snowCode, $qtyAll, $qtyToAdd)
 /**
  * Update the location according to the index
  *
- * @param array $cart Current cart
+ * @param array $cart                Current cart
  * @param array $addInformationArray Contain the quantity, the number of days and the index of the leasing in the cart
  * @return array $cart Cart updated
  */
