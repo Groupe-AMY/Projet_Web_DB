@@ -8,7 +8,7 @@
  *                      Fusion of the articles in the cart
  *                  13.05.2019 yannick.baudraz@cpnv.ch
  *                      Function verifyQuantity()
- * Git source  :    [link]
+ * Git source  :    https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/model/cartManager.php
  */
 
 /**
@@ -54,11 +54,10 @@ function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howMan
         $addInformationArray = [
             'quantity' => $qtyOfSnowsToAdd,
             'leasingDays' => $howManyLeasingDays,
-            'index' => "3"
+            'index' => $indexLocation
         ];
         $cartUpdated = changeLocation($currentCartArray, $addInformationArray);
     }
-
 
     return $cartUpdated;
 }
@@ -87,10 +86,17 @@ function verifyQuantity($snowCode, $qtyAll, $qtyToAdd)
     return $isQuantityOk;
 }
 
+/**
+ * Update the location according to the index
+ *
+ * @param array $cart Current cart
+ * @param array $addInformationArray Contain the quantity, the number of days and the index of the leasing in the cart
+ * @return array $cart Cart updated
+ */
 function changeLocation($cart, $addInformationArray)
 {
-    $cart[$addInformationArray['index']['qty']] = $addInformationArray['quantity'];
-    $cart[$addInformationArray['index']['nbD']] = $addInformationArray['leasingDays'];
+    $cart[$addInformationArray['index']]['qty'] = $addInformationArray['quantity'];
+    $cart[$addInformationArray['index']]['nbD'] = $addInformationArray['leasingDays'];
 
     return $cart;
 }

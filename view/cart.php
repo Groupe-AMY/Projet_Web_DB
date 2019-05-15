@@ -8,10 +8,11 @@
  * Last update :    08.05.2019 mauro-alexandre.Costa-dos-santos@cpnv.ch
  *                      add button "Finaliser la location"
  *                  10.05.2019 mauro-alexandre.Costa-dos-santos@cpnv.ch
- *                      fixed quantity and number of day placement
- * Source       :   [git source]
+ *                      fix quantity and number of day placement
+ *                  15.05.2019 mauro-alexandre.Costa-dos-santos@cpnv.ch
+ *                      change forms and add "changer" button
+ * Source       :   https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/view/cart.php
  */
-
 
 
 $title = 'Rent A Snow - Demande de location';
@@ -22,20 +23,24 @@ ob_start();
     <article>
         <table class="table">
             <tr>
-                <th>Code</th><th>Date</th><th>Quantité</th><th>Nombre de Jours</th><th>Retirer</th>
+                <th>Code</th>
+                <th>Date</th>
+                <th>Quantité</th>
+                <th>Nombre de Jours</th>
+                <th>Retirer</th>
             </tr>
             <?php
             // Displays cart session's content
             $cartArray = $_SESSION['cart'];
-            foreach ($cartArray as $index => $article){
-                echo "<form method='POST' action='index.php?action=updateCartRequest&code=".$article['code']."&update=$index'>";
+            foreach ($cartArray as $index => $article) {
+                echo "<form method='POST' action='index.php?action=updateCartRequest&code=" . $article['code'] . "&update=$index'>";
                 echo "<tr>";
-                echo "<td>".$article['code']."</td>";
-                echo "<td>".$article['dateD']."</td>";
-                echo "<td><input type='number' name='uQty' value='".$article['qty']."'></td>";
-                echo "<td><input type='number' name='uNbD' value='".$article['nbD']."'></td>";
+                echo "<td>" . $article['code'] . "</td>";
+                echo "<td>" . $article['dateD'] . "</td>";
+                echo "<td><input type='number' name='inputQuantity' value='" . $article['qty'] . "'></td>";
+                echo "<td><input type='number' name='inputDays' value='" . $article['nbD'] . "'></td>";
                 echo "<td><input class='btn btn-info' type='submit' value='Changer'>";
-                echo "<a href='index.php?action=updateCartRequest&code=".$article['code']."'> <img src='view/content/images/delete2.png'></a></td>";
+                echo "<a href='index.php?action=updateCartRequest&code=" . $article['code'] . "'> <img src='view/content/images/delete2.png'></a></td>";
                 echo "</tr></form>";
             }
             ?>

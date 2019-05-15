@@ -6,8 +6,11 @@
  * Time: 09:10
  * Updated by : 12-MAR-2019 - nicolas.glassey
  *                  Add register function
- *              13.05.2019 alexandre.fontes@conv.ch
+ *              13.05.2019 alexandre.fontes@cpnv.ch
  *                  Redirection according to the verification for the location in the cart
+ *              15.05.2019 alexandre.fontes@cpnv.ch
+ *                  update updateCartRequest() for the parameter $update
+ * Git source : https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/controler/controler.php
  */
 
 /**
@@ -23,7 +26,7 @@ function home()
 //region users management
 /**
  * This function is designed to manage login request
- * @param $loginRequest containing login fields required to authenticate the user
+ * @param array $loginRequest containing login fields required to authenticate the user
  */
 function login($loginRequest)
 {
