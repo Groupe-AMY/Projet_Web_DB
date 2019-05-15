@@ -20,27 +20,27 @@ ob_start();
 ?>
     <h2>Votre panier</h2>
     <article>
+        <table class="table">
+            <tr>
+                <th>Code</th><th>Date</th><th>Quantité</th><th>Nombre de Jours</th><th>Retirer</th>
+            </tr>
+            <?php
+            // Displays cart session's content
+            $cartArray = $_SESSION['cart'];
+            foreach ($cartArray as $index => $article){
+                echo "<form method='POST' action='index.php?action=updateCartRequest&code=".$article['code']."&update=$index'>";
+                echo "<tr>";
+                echo "<td>".$article['code']."</td>";
+                echo "<td>".$article['dateD']."</td>";
+                echo "<td><input type='number' name='uQty' value='".$article['qty']."'></td>";
+                echo "<td><input type='number' name='uNbD' value='".$article['nbD']."'></td>";
+                echo "<td><input class='btn btn-info' type='submit' value='Changer'>";
+                echo "<a href='index.php?action=updateCartRequest&code=".$article['code']."'> <img src='view/content/images/delete2.png'></a></td>";
+                echo "</tr></form>";
+            }
+            ?>
+        </table>
         <form method="POST" action="index.php?action=displaySnows">
-            <table class="table">
-                <tr>
-                    <th>Code</th><th>Date</th><th>Quantité</th><th>Nombre de Jours</th><th>Retirer</th>
-                </tr>
-                <?php
-                // Displays cart session's content
-                $cartArray = $_SESSION['cart'];
-                foreach ($cartArray as $article){
-                    echo "<tr>";
-                    echo "<td>".$article['code']."</td>";
-                    echo "<td>".$article['dateD']."</td>";
-                    echo "<form method='POST' action='index.php?action=updateCartItem'>";
-                    echo "<td><input type='number' name='uQty' value='".$article['qty']."' disabled></td>";
-                    echo "<td><input type='number' name='uNbD' value='".$article['nbD']."' disabled></td>";
-
-                    echo "<td><a href='index.php?action=updateCartRequest&code=".$article['code']."'><img src='view/content/images/delete2.png'></a></td>";
-                    echo "</form></tr>";
-                }
-                ?>
-            </table>
             <input type="submit" value="Louer encore" class="btn btn-info" name="backToCatalog">
             <input type="submit" value="Vider le panier" class="btn btn-cancel" name="resetCart">
             <input type="submit" value="Finaliser la location" class="btn btn-success" name="">
