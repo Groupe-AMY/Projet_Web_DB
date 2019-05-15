@@ -14,40 +14,51 @@
 /**
  * Update the cart according to the leasing's days and the snow's code
  *
- * @param $currentCartArray
- * @param $snowCodeToAdd
- * @param $qtyOfSnowsToAdd
- * @param $howManyLeasingDays
- * @return array
+ * @param array      $currentCartArray
+ * @param string|int $snowCodeToAdd
+ * @param string|int $qtyOfSnowsToAdd
+ * @param string|int $howManyLeasingDays
+ * @param null       $indexLocation
+ * @return array $cartUpdated
  */
-function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howManyLeasingDays)
+function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howManyLeasingDays, $indexLocation = null)
 {
     $cartUpdated = null;
     $flagCart = false;
     $quantityAll = $qtyOfSnowsToAdd;
     $flagQuantity = false;
 
-    if ($currentCartArray != null) {
-        foreach ($currentCartArray as $index => $snow) {
-            if ($snowCodeToAdd === $snow["code"]) {
-                $quantityAll += $snow['qty'];
-                if ($howManyLeasingDays === $snow["nbD"]) {
-                    $currentCartArray[$index]['qty'] += $qtyOfSnowsToAdd;
-                    $flagCart = true;
+    if (!$indexLocation) {
+        if ($currentCartArray != null) {
+            foreach ($currentCartArray as $index => $location) {
+                if ($snowCodeToAdd === $location["code"]) {
+                    $quantityAll += $location['qty'];
+                    if ($howManyLeasingDays === $location["nbD"]) {
+                        $currentCartArray[$index]['qty'] += $qtyOfSnowsToAdd;
+                        $flagCart = true;
+                    }
                 }
             }
         }
+
+        if (verifyQuantity($snowCodeToAdd, $quantityAll, $qtyOfSnowsToAdd)) {
+            $cartUpdated = $currentCartArray;
+            $flagQuantity = true;
+        }
+
+        if (!$flagCart && $flagQuantity) {
+            $newSnowLeasing = array('code' => $snowCodeToAdd, 'dateD' => Date("d-m-y"), 'nbD' => $howManyLeasingDays, 'qty' => $qtyOfSnowsToAdd);
+            array_push($cartUpdated, $newSnowLeasing);
+        }
+    } else {
+        $addInformationArray = [
+            'quantity' => $qtyOfSnowsToAdd,
+            'leasingDays' => $howManyLeasingDays,
+            'index' => "3"
+        ];
+        $cartUpdated = changeLocation($currentCartArray, $addInformationArray);
     }
 
-    if (verifyQuantity($snowCodeToAdd, $quantityAll, $qtyOfSnowsToAdd)) {
-        $cartUpdated = $currentCartArray;
-        $flagQuantity = true;
-    }
-
-    if (!$flagCart && $flagQuantity) {
-        $newSnowLeasing = array('code' => $snowCodeToAdd, 'dateD' => Date("d-m-y"), 'nbD' => $howManyLeasingDays, 'qty' => $qtyOfSnowsToAdd);
-        array_push($cartUpdated, $newSnowLeasing);
-    }
 
     return $cartUpdated;
 }
@@ -74,6 +85,14 @@ function verifyQuantity($snowCode, $qtyAll, $qtyToAdd)
     }
 
     return $isQuantityOk;
+}
+
+function changeLocation($cart, $addInformationArray)
+{
+    $cart[$addInformationArray['index']['qty']] = $addInformationArray['quantity'];
+    $cart[$addInformationArray['index']['nbD']] = $addInformationArray['leasingDays'];
+
+    return $cart;
 }
 
 //in_array https://www.php.net/manual/en/function.in-array.php
