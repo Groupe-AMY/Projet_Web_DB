@@ -9,7 +9,9 @@
  *              13.05.2019 alexandre.fontes@cpnv.ch
  *                  Redirection according to the verification for the location in the cart
  *              15.05.2019 alexandre.fontes@cpnv.ch
- *                  update updateCartRequest() for the parameter $update
+ *                  Update updateCartRequest() for the parameter $update
+ *              16.05.2019 alexandre.fontes@cpnv.ch
+ *                  Quantity verification for change a location
  * Git source : https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/controler/controler.php
  */
 
@@ -26,6 +28,7 @@ function home()
 //region users management
 /**
  * This function is designed to manage login request
+ *
  * @param array $loginRequest containing login fields required to authenticate the user
  */
 function login($loginRequest)
@@ -56,6 +59,7 @@ function login($loginRequest)
 
 /**
  * This fonction is designed
+ *
  * @param $registerRequest
  */
 function register($registerRequest)
@@ -89,6 +93,7 @@ function register($registerRequest)
 
 /**
  * This function is designed to create a new user session
+ *
  * @param $userEmailAddress : user unique id
  */
 function createSession($userEmailAddress)
@@ -148,6 +153,7 @@ function displaySnows()
 
 /**
  * This function is designed to get only one snow results (for aSnow view)
+ *
  * @param $snow_code
  */
 function displayASnow($snow_code)
@@ -163,7 +169,7 @@ function displayASnow($snow_code)
 //endregion
 
 //region Cart Management
-function displayCart()
+function displayCart($error = false)
 {
     $_GET['action'] = "cart";
     require "view/cart.php";
@@ -180,30 +186,37 @@ function snowLeasingRequest($snowCode, $error = false)
 
 /**
  * This function designed to manage all request impacting the cart content
+ *
  * @param $snowCode
  * @param $update
+ * @param $delete
  * @param $snowLocationRequest
  */
-function updateCartRequest($snowCode, $update, $snowLocationRequest)
+function updateCartRequest($snowCode, $update, $delete, $snowLocationRequest)
 {
+    if (!isset($_SESSION['cart'])) {
+        $cart = array();
+    } else {
+        $cart = $_SESSION['cart'];
+    }
 
-    if (($snowLocationRequest) AND ($snowCode)) {
-        if (!isset($_SESSION['cart'])) {
-            $cart = array();
-        } else {
-            $cart = $_SESSION['cart'];
-        }
-
-        require "model/cartManager.php";
+    require "model/cartManager.php";
+    if ($delete === null) {
         $cartArrayTemp = updateCart($cart, $snowCode, $snowLocationRequest['inputQuantity'], $snowLocationRequest['inputDays'], $update);
         if ($cartArrayTemp != null) {
             $_SESSION['cart'] = $cartArrayTemp;
             $_GET['action'] = "displayCart";
             displayCart();
+        } else if ($update !== null) {
+            displayCart(true);
         } else {
             snowLeasingRequest($snowCode, true);
         }
+    } else {
+        $cartArrayTemp = deleteLocation($cart, $delete);
+        $_SESSION['cart'] = $cartArrayTemp;
+        $_GET['action'] = "displayCart";
+        displayCart();
     }
-
 }
 //endregion
