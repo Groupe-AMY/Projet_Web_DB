@@ -18,12 +18,12 @@
 /**
  * Update the cart according to the leasing's days and the snow's code
  *
- * @param array      $currentCartArray
- * @param string|int $snowCodeToAdd
- * @param string|int $qtyOfSnowsToAdd
- * @param string|int $howManyLeasingDays
- * @param null       $indexLocation
- * @return array $cartUpdated
+ * @param array      $currentCartArray   : Cart before the modification
+ * @param string|int $snowCodeToAdd      : Code of the snow to add
+ * @param string|int $qtyOfSnowsToAdd    : Quantity of the snow to add
+ * @param string|int $howManyLeasingDays : Number of leasing days to add
+ * @param null       $indexLocation      : Index of the snow to add
+ * @return array $cartUpdated : Cart after the modification or null if the verification were unsuccessful
  */
 function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howManyLeasingDays, $indexLocation = null)
 {
@@ -62,7 +62,7 @@ function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howMan
         ];
 
         foreach ($currentCartArray as $index => $location) {
-            if ($snowCodeToAdd === $location["code"]) {
+            if ($snowCodeToAdd === $location["code"] && $index != $indexLocation) {
                 $quantityAll += $location['qty'];
             }
         }
@@ -77,9 +77,9 @@ function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howMan
 /**
  * Verify the quantity of snow to add in the cart
  *
- * @param $snowCode
- * @param $qtyAll
- * @param $qtyToAdd
+ * @param string|int $snowCode : Code of the snow to add
+ * @param string|int $qtyAll   : All the quantity of the snow (in the cart and the quantity to add)
+ * @param string|int $qtyToAdd : Quantity of the snow to add
  * @return bool $isQuantityOk : false if the check isn't good, else true
  */
 function verifyQuantity($snowCode, $qtyAll, $qtyToAdd)
@@ -101,9 +101,9 @@ function verifyQuantity($snowCode, $qtyAll, $qtyToAdd)
 /**
  * Update the location according to the index
  *
- * @param array $cart                Current cart
- * @param array $addInformationArray Contain the quantity, the number of days and the index of the leasing in the cart
- * @return array $cart Cart updated
+ * @param array $cart                : Current cart
+ * @param array $addInformationArray : Contain the quantity, the number of days and the index of the leasing in the cart
+ * @return array $cart : Cart updated
  */
 function changeLocation($cart, $addInformationArray)
 {
