@@ -18,8 +18,8 @@ ob_start();
     <h2>Demande de location</h2>
 <?php if (!empty($error)): ?>
     <div class="alert alert-error">
-        <strong>Erreur sur la quantité demandée</strong><br>
-        Qauntité trop èlevée ou inférieur à 1
+        <strong>Erreur sur la quantité demandée.</strong><br>
+        Quantité trop èlevée ou inférieur à 1. Vérifiez la disponibilité du stock.
     </div>
 <?php endif; ?>
     <article>

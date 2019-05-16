@@ -6,6 +6,8 @@
  *
  * Last update :    08.05.2019 alexandre.fontes@cpnv.ch
  *                      cases displaySnows, snowLeasingRequest, updateCartRequest, displayCart
+ *                  16.05.2019 alexandre.fontes@cpnv.ch
+ *                      added parameters for snowLeasingRequest() and updateCartRequest()
  * Git source  :    [link]
  */
 
@@ -34,7 +36,7 @@ if (isset($_GET['action'])) {
             snowLeasingRequest($_GET['code']);
             break;
         case 'updateCartRequest':
-            updateCartRequest($_GET['code'],$_GET['update'] ?? null, $_POST);
+            updateCartRequest($_GET['code'], $_GET['update'] ?? null, $_GET['delete'] ?? null, $_POST);
             break;
         case 'displayCart':
             displayCart();
