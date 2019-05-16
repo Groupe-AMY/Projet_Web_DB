@@ -10,6 +10,8 @@
  *                      Function verifyQuantity()
  *                  15.05.2019 yannick.baudraz@cpnv.ch
  *                      Function deleteLocation()
+ *                  16.05.2019 yannick.baudraz@cpnv.ch
+ *                      Quantity verification when changing a location
  * Git source  :    https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/model/cartManager.php
  */
 
@@ -58,7 +60,15 @@ function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howMan
             'leasingDays' => $howManyLeasingDays,
             'index' => $indexLocation
         ];
-        $cartUpdated = changeLocation($currentCartArray, $addInformationArray);
+
+        foreach ($currentCartArray as $index => $location) {
+            if ($snowCodeToAdd === $location["code"]) {
+                $quantityAll += $location['qty'];
+            }
+        }
+        if (verifyQuantity($snowCodeToAdd, $quantityAll, $qtyOfSnowsToAdd)) {
+            $cartUpdated = changeLocation($currentCartArray, $addInformationArray);
+        }
     }
 
     return $cartUpdated;
