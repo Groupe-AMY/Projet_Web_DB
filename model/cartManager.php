@@ -98,11 +98,12 @@ function verifyQuantity($snowCode, $qtyAll, $qtyToAdd)
     $strSeparator = '\'';
     $getQuantitySnow = 'SELECT qtyAvailable FROM snows WHERE code =' . $strSeparator . $snowCode . $strSeparator;
     require_once 'model/dbConnector.php';
-    $queryResult = executeQuerySelect($getQuantitySnow);
 
     $isQuantityOk = true;
-    if ($qtyToAdd < 0 || $qtyAll > $queryResult[0]['qtyAvailable']) {
-        $isQuantityOk = false;
+    if ($queryResult = executeQuerySelect($getQuantitySnow)) {
+        if ($qtyToAdd < 0 || $qtyAll > $queryResult[0]['qtyAvailable']) {
+            $isQuantityOk = false;
+        }
     }
 
     return $isQuantityOk;
