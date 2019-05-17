@@ -32,11 +32,14 @@ function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howMan
     $quantityAll = $qtyOfSnowsToAdd;
     $flagQuantity = false;
 
+    // If we don't want to change a location
     if ($indexLocation === null) {
         if ($currentCartArray != null) {
             foreach ($currentCartArray as $index => $location) {
                 if ($snowCodeToAdd === $location["code"]) {
+                    // Get all the quantity to add, for the verification of the quantity
                     $quantityAll += $location['qty'];
+                    // If we need to fusion a location with the new one
                     if ($howManyLeasingDays === $location["nbD"]) {
                         $currentCartArray[$index]['qty'] += $qtyOfSnowsToAdd;
                         $flagCart = true;
@@ -50,23 +53,31 @@ function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howMan
             $flagQuantity = true;
         }
 
+        // If we want to add a new location in the cart
         if (!$flagCart && $flagQuantity) {
-            $newSnowLeasing = array('code' => $snowCodeToAdd, 'dateD' => Date("d-m-y"), 'nbD' => $howManyLeasingDays, 'qty' => $qtyOfSnowsToAdd);
+            $newSnowLeasing = [
+                'code' => $snowCodeToAdd,
+                'dateD' => Date("d-m-y"),
+                'nbD' => $howManyLeasingDays,
+                'qty' => $qtyOfSnowsToAdd
+            ];
             array_push($cartUpdated, $newSnowLeasing);
         }
     } else {
-        $addInformationArray = [
-            'quantity' => $qtyOfSnowsToAdd,
-            'leasingDays' => $howManyLeasingDays,
-            'index' => $indexLocation
-        ];
-
+        // Get all the quantity of snow to add, except the quantity of the snow we want to change
         foreach ($currentCartArray as $index => $location) {
             if ($snowCodeToAdd === $location["code"] && $index != $indexLocation) {
                 $quantityAll += $location['qty'];
             }
         }
+
         if (verifyQuantity($snowCodeToAdd, $quantityAll, $qtyOfSnowsToAdd)) {
+            // Take adding information in an array, to not surcharging the functions with too many parameters.
+            $addInformationArray = [
+                'quantity' => $qtyOfSnowsToAdd,
+                'leasingDays' => $howManyLeasingDays,
+                'index' => $indexLocation
+            ];
             $cartUpdated = changeLocation($currentCartArray, $addInformationArray);
         }
     }
@@ -75,22 +86,21 @@ function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howMan
 }
 
 /**
- * Verify the quantity of snow to add in the cart
+ * Verify the quantity of snows to add in the cart is not too much
  *
  * @param string|int $snowCode : Code of the snow to add
  * @param string|int $qtyAll   : All the quantity of the snow (in the cart and the quantity to add)
  * @param string|int $qtyToAdd : Quantity of the snow to add
- * @return bool $isQuantityOk : false if the check isn't good, else true
+ * @return bool $isQuantityOk : false if the verification isn't good, else true
  */
 function verifyQuantity($snowCode, $qtyAll, $qtyToAdd)
 {
-    $isQuantityOk = true;
-
     $strSeparator = '\'';
     $getQuantitySnow = 'SELECT qtyAvailable FROM snows WHERE code =' . $strSeparator . $snowCode . $strSeparator;
     require_once 'model/dbConnector.php';
     $queryResult = executeQuerySelect($getQuantitySnow);
 
+    $isQuantityOk = true;
     if ($qtyToAdd < 0 || $qtyAll > $queryResult[0]['qtyAvailable']) {
         $isQuantityOk = false;
     }
