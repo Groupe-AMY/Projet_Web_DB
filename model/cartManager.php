@@ -113,6 +113,20 @@ function changeLocation($cart, $addInformationArray)
     return $cart;
 }
 
+/**
+ * Delete a location in the cart according to the index
+ *
+ * @param array      $cart  : Current cart
+ * @param string|int $index : Index of the location to delete
+ * @return array $cart : Cart updated
+ */
+function deleteLocation($cart, $index)
+{
+    unset($cart[$index]);
+
+    return $cart;
+}
+
 //in_array https://www.php.net/manual/en/function.in-array.php
 //array_push() https://www.php.net/manual/en/function.array-push.php
 //array_search
