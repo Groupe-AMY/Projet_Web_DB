@@ -12,20 +12,20 @@
  *                  Update updateCartRequest() for the parameter $update
  *              16.05.2019 alexandre.fontes@cpnv.ch
  *                  Quantity verification for change a location
+ *              17.05.2019 alexandre.fontes@cpnv.ch
+ *                  Comment the code
  * Git source : https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/controler/controler.php
  */
 
 /**
  * This function is designed to redirect the user to the home page (depending on the action received by the index)
  */
-
 function home()
 {
     $_GET['action'] = "home";
     require "view/home.php";
 }
 
-//region users management
 /**
  * This function is designed to manage login request
  *
@@ -115,10 +115,6 @@ function logout()
     require "view/home.php";
 }
 
-//endregion
-
-
-//region snows management
 /**
  * This function is designed to display Snows
  * There are two different view available.
@@ -166,16 +162,21 @@ function displayASnow($snow_code)
     require "view/aSnow.php";
 }
 
-//endregion
-
-//region Cart Management
+/**
+ * This function is designed to display the cart
+ * @param bool $error
+ */
 function displayCart($error = false)
 {
     $_GET['action'] = "cart";
     require "view/cart.php";
 }
 
-
+/**
+ * This function is designed to manage the snow leasing request
+ * @param $snowCode
+ * @param bool $error
+ */
 function snowLeasingRequest($snowCode, $error = false)
 {
     require "model/snowsManager.php";
@@ -219,4 +220,3 @@ function updateCartRequest($snowCode, $update, $delete, $snowLocationRequest)
         displayCart();
     }
 }
-//endregion
