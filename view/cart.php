@@ -64,7 +64,7 @@ ob_start();
 
             <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) != 0): ?>
                 <input type="submit" value="Vider le panier" class="btn btn-cancel" name="resetCart">
-                <input type="submit" value="Finaliser la location" class="btn btn-success" name="">
+                <input type="submit" value="Finaliser la location" class="btn btn-success" name="finalizeCart">
             <?php endif ?>
         </form>
     </article>
