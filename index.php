@@ -41,6 +41,12 @@ if (isset($_GET['action'])) {
         case 'displayCart':
             displayCart();
             break;
+        case 'fixRent':
+            // TODO
+            break;
+        case 'displayRent':
+            // TODO
+            break;
         default:
             home();
     }

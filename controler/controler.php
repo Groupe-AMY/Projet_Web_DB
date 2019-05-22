@@ -58,7 +58,7 @@ function login($loginRequest)
 }
 
 /**
- * This fonction is designed
+ * This function is designed
  *
  * @param $registerRequest
  */
@@ -219,4 +219,20 @@ function updateCartRequest($snowCode, $update, $delete, $snowLocationRequest)
         $_GET['action'] = "displayCart";
         displayCart();
     }
+}
+
+/**
+ * Take the rent of the user connected
+ */
+function getRent()
+{
+    // TODO
+}
+
+/**
+ * Display the cart page of the user connected
+ */
+function displayRent()
+{
+    // TODO
 }
