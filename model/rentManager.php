@@ -51,3 +51,10 @@ function getOneRent($rentId)
     $queryResult = executeQuerySelect($getUserTypeQuery);
     return $queryResult;
 }
+function getUserRent($userEmailAddress){
+    $userID = getUserID($userEmailAddress)[0];
+    $getUserTypeQuery = 'SELECT rents.id,snows.code,snows.brand,snows.model,snows.dailyPrice,rent_details.qtySnow,rent_details.leasingDays,rents.dateStart FROM rents INNER JOIN rent_details ON rents.id = rent_details.fk_rentId INNER JOIN snows ON snows.id = rent_details.fk_snowId WHERE rents.fk_userId = '.$userID;
+    require_once 'model/dbConnector.php';
+    $queryResult = executeQuerySelect($getUserTypeQuery);
+    return $queryResult;
+}
