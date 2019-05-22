@@ -61,8 +61,9 @@ ob_start();
         </table>
         <form method="POST" action="index.php?action=displaySnows">
             <input type="submit" value="Louer encore" class="btn btn-info" name="backToCatalog">
-            <input type="submit" value="Vider le panier" class="btn btn-cancel" name="resetCart">
+
             <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) != 0): ?>
+                <input type="submit" value="Vider le panier" class="btn btn-cancel" name="resetCart">
                 <input type="submit" value="Finaliser la location" class="btn btn-success" name="">
             <?php endif ?>
         </form>

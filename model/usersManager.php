@@ -78,3 +78,14 @@ function getUserType($userEmailAddress){
     }
     return $result;
 }
+
+/**
+ * @param $userEmailAddress
+ * @rekturn array|null
+ */
+function getUserID($userEmailAddress){
+    $getUserTypeQuery = 'SELECT id From users WHERE userEmailAddress='.$userEmailAddress;
+    require_once 'model/dbConnector.php';
+    $queryResult = executeQuerySelect($getUserTypeQuery);
+    return $queryResult;
+}

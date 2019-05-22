@@ -23,7 +23,7 @@ ob_start();
     <article>
         <table class="table">
             <tr>
-                <th>N°Location</th>
+                <th>N° Location</th>
                 <th>Code</th>
                 <th>Marque</th>
                 <th>Modèle</th>
@@ -35,19 +35,16 @@ ob_start();
 
             <?php
             foreach ($rentArray as $index => $article): ?>
-                <form method="post"
-                      action="index.php?action=fixRent=<?= $article['code'] ?>&update=<?= $index ?>">
-                    <tr>
-                        <td><?= $article['numLoc'] ?></td>
-                        <td><?= $article['code'] ?></td>
-                        <td><?= $article['marque'] ?></td>
-                        <td><?= $article['modele'] ?></td>
-                        <td><?= $article['prix'] ?></td>
-                        <td><?= $article['qty'] ?></td>
-                        <td><?= $article['nbj'] ?></td>
-                        <td><?= $article['debutLoc'] ?></td>
-                    </tr>
-                </form>
+                <tr>
+                    <td><?= $article['id'] ?></td>
+                    <td><?= $article['code'] ?></td>
+                    <td><?= $article['brand'] ?></td>
+                    <td><?= $article['model'] ?></td>
+                    <td><?= $article['dailyPrice'] ?></td>
+                    <td><?= $article['qtySnow'] ?></td>
+                    <td><?= $article['leasing'] ?></td>
+                    <td><?= $article['dateStart'] ?></td>
+                </tr>
             <?php endforeach ?>
         </table>
     </article>
