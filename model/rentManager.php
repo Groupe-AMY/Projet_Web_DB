@@ -24,10 +24,10 @@ function saveRent($currentCartArray, $userEmail)
     $result = NULL;
     $userID = getUserID($userEmail)[0];
     $rentID = countRent();
+    $rentinsertQuery1 = 'INSERT INTO  rents VALUES (' . $rentID . ',' . $userID . ',' . date(d / m / Y) . ')';
+    $queryResult1 = executeQueryInsert($rentinsertQuery1);
     foreach ($currentCartArray as $item) {
-        $rentinsertQuery1 = 'INSERT INTO  rents VALUES (' . $rentID . ',' . $userID . ',' . date(d / m / Y) . ')';
-        $queryResult1 = executeQueryInsert($rentinsertQuery1);
-        $rentinsertQuery2 = 'INSERT INTO  rent_details VALUES (' . date(d-m-Y) . ')';
+        $rentinsertQuery2 = 'INSERT INTO  rent_details VALUES ('.$rentID.','.$userID .','.$item[qty] .','.$item[nbD] .')';
         $queryResult2 = executeQueryInsert($rentinsertQuery2);
     }
 
