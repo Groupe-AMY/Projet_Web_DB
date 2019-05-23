@@ -40,9 +40,9 @@ ob_start();
                     <td><?= $article['code'] ?></td>
                     <td><?= $article['brand'] ?></td>
                     <td><?= $article['model'] ?></td>
-                    <td><?= $article['dailyPrice'] ?></td>
+                    <td>CHF <?= $article['dailyPrice'] ?></td>
                     <td><?= $article['qtySnow'] ?></td>
-                    <td><?= $article['leasing'] ?></td>
+                    <td><?= $article['leasingDays'] ?></td>
                     <td><?= $article['dateStart'] ?></td>
                 </tr>
             <?php endforeach ?>

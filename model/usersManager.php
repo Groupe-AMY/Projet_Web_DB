@@ -84,8 +84,8 @@ function getUserType($userEmailAddress){
  * @rekturn array|null
  */
 function getUserID($userEmailAddress){
-    $getUserTypeQuery = 'SELECT id From users WHERE userEmailAddress='.$userEmailAddress;
+    $getUserIDQuery = "SELECT id From users WHERE userEmailAddress = '$userEmailAddress'";
     require_once 'model/dbConnector.php';
-    $queryResult = executeQuerySelect($getUserTypeQuery);
+    $queryResult = executeQuerySelect($getUserIDQuery);
     return $queryResult;
 }

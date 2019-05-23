@@ -12,7 +12,11 @@
  */
 
 session_start();
-require "controler/controler.php";
+require_once 'controler/controler.php';
+require_once 'controler/user.php';
+require_once 'controler/snow.php';
+require_once 'controler/cart.php';
+require_once 'controler/rent.php';
 
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
@@ -42,10 +46,10 @@ if (isset($_GET['action'])) {
             displayCart();
             break;
         case 'fixRent':
-            // TODO
+            displayRent(null);
             break;
         case 'displayRent':
-            // TODO
+            displayRent($_GET['display']);
             break;
         default:
             home();

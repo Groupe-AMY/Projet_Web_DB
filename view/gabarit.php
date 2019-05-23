@@ -86,7 +86,7 @@
                                 <?php endif; ?>
                                 <?php if(isset($_SESSION['cart'])&& count($_SESSION['cart'])!=0) :?>
                                     <li><a href="index.php?action=displayCart"><img src="view/content/images/cart.png">  <?=  count($_SESSION['cart']);?> snow(s)</a></li>
-                                <?php endif; ?>
+                                <?php endif; if(isset($_SESSION['cart']))?>
                             </ul>
                             <!-- on affiche, si la session est active, l'adresse email de l'utilisateur-->
                             <?php if(isset($_SESSION['userEmailAddress'])) :?>
