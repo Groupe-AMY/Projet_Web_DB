@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS `rents`
     CONSTRAINT `fk_rents_users1`
         FOREIGN KEY (`fk_userId`)
             REFERENCES `snows`.`users` (`id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
@@ -19,11 +19,11 @@ CREATE TABLE IF NOT EXISTS `rent_details`
 (
     `fk_rentId`   INT(12) UNSIGNED     NOT NULL,
     `fk_snowId`   INT(11)              NOT NULL,
-    `qtySnow`     SMALLINT(6) UNSIGNED NOT NULL,
     `leasingDays` SMALLINT(4) UNSIGNED NOT NULL,
+    `qtySnow`     SMALLINT(6) UNSIGNED NOT NULL,
     INDEX `fk_rents_has_snows_snows1_idx` (`fk_snowId` ASC) VISIBLE,
     INDEX `fk_rents_has_snows_rents_idx` (`fk_rentId` ASC) VISIBLE,
-    PRIMARY KEY (`fk_rentId`, `fk_snowId`),
+    PRIMARY KEY (`fk_rentId`, `fk_snowId`, `leasingDays`),
     CONSTRAINT `fk_rents_has_snows_rents`
         FOREIGN KEY (`fk_rentId`)
             REFERENCES `snows`.`rents` (`id`)
