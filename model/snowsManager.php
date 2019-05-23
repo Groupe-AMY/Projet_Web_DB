@@ -39,3 +39,17 @@ function getASnow($snow_code){
 
     return $snowResults;
 }
+function updateSnow($snowCode,$change){
+    $getUserTypeQuery = 'SELECT qtyAvailable FROM snows WHERE code='.$snowCode;
+    require_once 'model/dbConnector.php';
+    $oldQuantity = executeQuerySelect($getUserTypeQuery);
+    $newQuantity = $oldQuantity-$change;
+    $rentinsertQuery2 = 'UPDATE snows SET qtyAvailable='.$newQuantity.'WHERE code='.$snowCode;
+    $queryResult2 = executeQueryInsert($rentinsertQuery2);
+}
+function getSnowId($code){
+    $getUserTypeQuery = 'SELECT id From snows WHERE code='.$code;
+    require_once 'model/dbConnector.php';
+    $queryResult = executeQuerySelect($getUserTypeQuery);
+    return $queryResult;
+}
