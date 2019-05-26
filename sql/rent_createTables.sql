@@ -2,7 +2,7 @@
 
 CREATE TABLE IF NOT EXISTS `rents`
 (
-    `id`        INT(12) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id`        INT(12) UNSIGNED NOT NULL,
     `fk_userId` INT(10) UNSIGNED NOT NULL,
     `dateStart` DATE             NOT NULL,
     PRIMARY KEY (`id`),
