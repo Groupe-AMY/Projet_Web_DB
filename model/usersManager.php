@@ -89,3 +89,23 @@ function getUserID($userEmailAddress){
     $queryResult = executeQuerySelect($getUserIDQuery);
     return $queryResult;
 }
+
+/**
+ * Check if the user connected has location(s)
+ *
+ * @param string $userEmail : Email of the user
+ * @return bool $result
+ */
+function checkHasLocations($userEmail)
+{
+    require_once 'model/dbConnector.php';
+    $userID = getUserID($userEmail)[0]['id'];
+    $query = "SELECT id FROM rents WHERE fk_userId = ". $userID;
+    if (executeQuerySelect($query)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+
+    return $result;
+}
