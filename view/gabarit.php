@@ -5,8 +5,10 @@
  * Date: 08.05.2017
  * Time: 09:16
  * Last Update :    Nicolas Glassey
- *                  02.03.2019 - add action displaySnows
- *                  11.03.2019 - add ref javascript to customized scripts
+ *                    02.03.2019 - add action displaySnows
+ *                    11.03.2019 - add ref javascript to customized scripts
+ *                  Alexandre Fontes
+ *                    2019.05.24 - Condition for button "vos locations"
  */
 ?>
 <!DOCTYPE HTML>
@@ -83,10 +85,13 @@
                                 <!-- Puis la situation "connecté"-->
                                 <?php else :?>
                                     <li><a href="index.php?action=logout">Logout</a></li>
-                                <?php endif; ?>
+                                <?php endif ?>
                                 <?php if(isset($_SESSION['cart'])&& count($_SESSION['cart'])!=0) :?>
-                                    <li><a href="index.php?action=displayCart"><img src="view/content/images/cart.png">  <?=  count($_SESSION['cart']);?> snow(s)</a></li>
-                                <?php endif; if(isset($_SESSION['cart']))?>
+                                  <li><a href="index.php?action=displayCart"><img src="view/content/images/cart.png">  <?=  count($_SESSION['cart']);?> snow(s)</a></li>
+                                <?php endif ?>
+                                <?php if(isset($_SESSION['hasLocations']) && $_SESSION['hasLocations'] === true) :?>
+                                  <li><a href="index.php?action=displayRent&display=all">Vos locations</a></li>
+                                <?php endif ?>
                             </ul>
                             <!-- on affiche, si la session est active, l'adresse email de l'utilisateur-->
                             <?php if(isset($_SESSION['userEmailAddress'])) :?>

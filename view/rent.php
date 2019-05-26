@@ -9,7 +9,9 @@
  *                      Customize the page
  *                  22.05.2019 Alexandre.Fontes@cpnv.ch
  *                      foreach of the articles
- * Source       :   https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/view/fixRent.php
+ *                  24.05.2019 Alexandre.Fontes@cpnv.ch
+ *                      Format the date of the location
+ * Source       :   https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/view/rent.php
  */
 
 
@@ -33,8 +35,7 @@ ob_start();
                 <th>Date début de location</th>
             </tr>
 
-            <?php
-            foreach ($rentArray as $index => $article): ?>
+            <?php foreach ($rentArray as $index => $article): ?>
                 <tr>
                     <td><?= $article['id'] ?></td>
                     <td><?= $article['code'] ?></td>
@@ -43,7 +44,7 @@ ob_start();
                     <td>CHF <?= $article['dailyPrice'] ?></td>
                     <td><?= $article['qtySnow'] ?></td>
                     <td><?= $article['leasingDays'] ?></td>
-                    <td><?= $article['dateStart'] ?></td>
+                    <td><?= date('d-m-Y',strtotime($article['dateStart'])) ?></td>
                 </tr>
             <?php endforeach ?>
         </table>
