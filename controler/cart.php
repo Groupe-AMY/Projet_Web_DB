@@ -1,20 +1,22 @@
 <?php
 /**
  * Author       :   yannick.baudraz@cpnv.ch
- * Project      :   App - adverts.php
- * Description  :   [Description here]
- * Created      :   22.05.2019
+ * Project      :   Projet web DB - cart.php
+ * Description  :   Controller file for the cart
  *
+ * Created      :   22.05.2019
  * Updates      :   [dd.mm.yyyy author]
- *                  [description of update]
- * Git source   :   bitbucket.org/YannickClifford/gestiondesprestations
+ *                      [description of update]
+ *
+ * Git source   :   https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/controler/cart.php
+ *
  * Created with PhpStorm.
  */
 
 /**
  * This function is designed to display the cart
  *
- * @param bool $error
+ * @param bool $error : True if there is an error to display in the web page, else false.
  */
 function displayCart($error = false)
 {
@@ -25,8 +27,8 @@ function displayCart($error = false)
 /**
  * This function is designed to manage the snow leasing request
  *
- * @param      $snowCode
- * @param bool $error
+ * @param string|int $snowCode
+ * @param bool       $error : True if there is an error to display in the web page, else false.
  */
 function snowLeasingRequest($snowCode, $error = false)
 {
@@ -39,35 +41,46 @@ function snowLeasingRequest($snowCode, $error = false)
 /**
  * This function designed to manage all request impacting the cart content
  *
- * @param $snowCode
- * @param $update
- * @param $delete
- * @param $snowLocationRequest
+ * @param string|int  $snowCode
+ * @param null|string $update
+ * @param null|string $delete
+ * @param array       $snowLocationRequest
  */
 function updateCartRequest($snowCode, $update, $delete, $snowLocationRequest)
 {
     if (!isset($_SESSION['cart'])) {
-        $cart = array();
+        $cart = [];
     } else {
         $cart = $_SESSION['cart'];
     }
 
     require "model/cartManager.php";
-    if ($delete === null) {
-        $cartArrayTemp = updateCart($cart, $snowCode, $snowLocationRequest['inputQuantity'], $snowLocationRequest['inputDays'], $update);
-        if ($cartArrayTemp != null) {
+    if ($delete === NULL) { // Add or update a leasing's request
+        $cartArrayTemp = updateCart(
+              $cart,
+              $snowCode,
+              $snowLocationRequest['inputQuantity'],
+              $snowLocationRequest['inputDays'],
+              $update
+        );
+
+        if ($cartArrayTemp != NULL) {
             $_SESSION['cart'] = $cartArrayTemp;
             $_GET['action'] = "displayCart";
             displayCart();
-        } else if ($update !== null) {
+        } elseif ($update !== NULL) {
             displayCart(true);
         } else {
             snowLeasingRequest($snowCode, true);
         }
-    } else {
-        $cartArrayTemp = deleteLocation($cart, $delete);
-        $_SESSION['cart'] = $cartArrayTemp;
-        $_GET['action'] = "displayCart";
-        displayCart();
+    } else { // Delete a leasing's request
+        if ($cartArrayTemp = deleteLocation($cart, $delete)) { // The cart still have element(s)
+            $_SESSION['cart'] = $cartArrayTemp;
+            $_GET['action'] = "displayCart";
+            displayCart();
+        } else { // The cart doesn't have any leasing's request
+            $_GET['action'] = "displaySnows";
+            displaySnows();
+        }
     }
 }

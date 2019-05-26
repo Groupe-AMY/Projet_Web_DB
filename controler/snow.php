@@ -1,13 +1,15 @@
 <?php
 /**
  * Author       :   yannick.baudraz@cpnv.ch
- * Project      :   App - adverts.php
- * Description  :   [Description here]
- * Created      :   22.05.2019
+ * Project      :   Projet web DB - snow.php
+ * Description  :   Controller file for snows
  *
+ * Created      :   22.05.2019
  * Updates      :   [dd.mm.yyyy author]
- *                  [description of update]
- * Git source   :   bitbucket.org/YannickClifford/gestiondesprestations
+ *                      [description of update]
+ *
+ * Git source   :   https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/controler/rent.php
+ *
  * Created with PhpStorm.
  */
 

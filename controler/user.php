@@ -1,13 +1,15 @@
 <?php
 /**
  * Author       :   yannick.baudraz@cpnv.ch
- * Project      :   App - adverts.php
- * Description  :   [Description here]
- * Created      :   22.05.2019
+ * Project      :   Projet web DB - user.php
+ * Description  :   Controller file for users
  *
- * Updates      :   [dd.mm.yyyy author]
- *                  [description of update]
- * Git source   :   bitbucket.org/YannickClifford/gestiondesprestations
+ * Created      :   22.05.2019
+ * Updates      :   24.05.2019
+ *                      created session variable "hasLocations"
+ *
+ * Git source   :   https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/controler/user.php
+ *
  * Created with PhpStorm.
  */
 
@@ -28,6 +30,9 @@ function login($loginRequest)
         require_once "model/usersManager.php";
         if (isLoginCorrect($userEmailAddress, $userPsw)) {
             createSession($userEmailAddress);
+            if (checkHasLocations($userEmailAddress)) {
+                $_SESSION['hasLocations'] = true;
+            }
             $_GET['loginError'] = false;
             $_GET['action'] = "home";
             require "view/home.php";

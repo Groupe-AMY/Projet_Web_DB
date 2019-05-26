@@ -14,6 +14,8 @@
  *                  Quantity verification for change a location
  *              17.05.2019 alexandre.fontes@cpnv.ch
  *                  Comment the code
+ *              22.05.2019 yannick.BAUDRAZ@cpnv.ch
+*                   Separate functions in others controller's files
  * Git source : https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/controler/controler.php
  */
 

@@ -1,32 +1,35 @@
 <?php
 /**
  * Author       :   yannick.baudraz@cpnv.ch
- * Project      :   App - adverts.php
- * Description  :   [Description here]
- * Created      :   22.05.2019
+ * Project      :   Projet web DB - rent.php
+ * Description  :   Controller file for rents
  *
+ * Created      :   22.05.2019
  * Updates      :   [dd.mm.yyyy author]
- *                  [description of update]
- * Git source   :   bitbucket.org/YannickClifford/gestiondesprestations
+ *                      [description of update]
+ *
+ * Git source   :   https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/controler/rent.php
+ *
  * Created with PhpStorm.
  */
 
 /**
  * Display the cart page of the user connected
  *
- * @param $display
+ * @param null|string $wayToDisplay : The way to display the rent. Can be NULL or "all"
  */
-function displayRent($display)
+function displayRent($wayToDisplay)
 {
-    if (isset($_SESSION['userEmailAddress'])) {
+    if (isset($_SESSION['userEmailAddress'])) { // The user is logged
         $userEmail = $_SESSION['userEmailAddress'];
         require 'model/rentManager.php';
-        if ($display === 'all') {
+        if ($wayToDisplay === 'all') { // Display all the snows
             $rentArray = getUSerRent($userEmail);
-        } else {
+        } else { // Save a leasing's request and display the new location
             $cart = $_SESSION['cart'];
             $rentArray = saveRent($cart, $userEmail);
             unset($_SESSION['cart']);
+            $_SESSION['hasLocations'] = true;
         }
         require 'view/rent.php';
     } else {

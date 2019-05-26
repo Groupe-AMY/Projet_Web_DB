@@ -8,15 +8,15 @@
  *                      cases displaySnows, snowLeasingRequest, updateCartRequest, displayCart
  *                  16.05.2019 alexandre.fontes@cpnv.ch
  *                      added parameters for snowLeasingRequest() and updateCartRequest()
- * Git source  :    [link]
+ *                  22.05.2019
+ *                      action "fixRent" and "displayRent"
+ *                  25.05.2019 yannick.BAUDRAZ@cpnv.ch
+*                       require in each actions
+ * Git source  :    https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/index.php
  */
 
 session_start();
 require_once 'controler/controler.php';
-require_once 'controler/user.php';
-require_once 'controler/snow.php';
-require_once 'controler/cart.php';
-require_once 'controler/rent.php';
 
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
@@ -25,30 +25,39 @@ if (isset($_GET['action'])) {
             home();
             break;
         case 'register':
+            require_once 'controler/user.php';
             register($_POST);
             break;
         case 'login':
+            require_once 'controler/user.php';
             login($_POST);
             break;
         case 'logout':
+            require_once 'controler/user.php';
             logout();
             break;
         case 'displaySnows':
+            require_once 'controler/snow.php';
             displaySnows();
             break;
         case 'snowLeasingRequest':
+            require_once 'controler/cart.php';
             snowLeasingRequest($_GET['code']);
             break;
         case 'updateCartRequest':
+            require_once 'controler/cart.php';
             updateCartRequest($_GET['code'], $_GET['update'] ?? null, $_GET['delete'] ?? null, $_POST);
             break;
         case 'displayCart':
+            require_once 'controler/cart.php';
             displayCart();
             break;
         case 'fixRent':
+            require_once 'controler/rent.php';
             displayRent(null);
             break;
         case 'displayRent':
+            require_once 'controler/rent.php';
             displayRent($_GET['display']);
             break;
         default:
