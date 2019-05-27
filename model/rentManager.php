@@ -25,15 +25,16 @@ function saveRent($currentCartArray, $userEmail)
     $result = NULL;
     $userID = getUserID($userEmail)[0]['id'];
     $rentID = getLastRentID() + 1;
-    $rentsInsert = "INSERT INTO  rents VALUES (" . $rentID . ", " . $userID . ", DATE(NOW()))";
+    $rentsInsert = "INSERT INTO rents VALUES (" . $rentID . ", " . $userID . ", DATE(NOW()))";
     executeQueryInsert($rentsInsert);
     foreach ($currentCartArray as $item) {
-        $itemID = getsnowId($item["code"]);
-        $rent_detailsInsert = "INSERT INTO  rent_details VALUES (" . $rentID . "," . $itemID . "," . $item['nbD'] . "," . $item['qty'] . ")";
+        $itemID = getSnowId($item["code"]);
+        $rent_detailsInsert = "INSERT INTO rent_details VALUES (" . $rentID . "," . $itemID . "," . $item['nbD'] . "," . $item['qty'] . ")";
         executeQueryInsert($rent_detailsInsert);
-        updateSnow($item["code"], $item["qty"]);
+        updateSnowQuantity($item["code"], $item["qty"]);
     }
 
+    // Get the rent to display. The rent is the one we just saved.
     $result = getOneRent($rentID);
 
     return $result;
@@ -46,12 +47,13 @@ function saveRent($currentCartArray, $userEmail)
  */
 function getLastRentID()
 {
-    $getUserTypeQuery = 'SELECT id FROM rents ORDER BY id DESC LIMIT 1';
+    $getLastRentIdQuery = 'SELECT id FROM rents ORDER BY id DESC LIMIT 1';
     require_once 'model/dbConnector.php';
-    $queryResult = executeQuerySelect($getUserTypeQuery);
-    if (!$queryResult) {
+    $queryResult = executeQuerySelect($getLastRentIdQuery);
+    if (!$queryResult) { // If there isn't any rent, return 0
         $queryResult[0]['id'] = 0;
     }
+
     return $queryResult[0]['id'];
 }
 
@@ -64,7 +66,8 @@ function getLastRentID()
 function getOneRent($rentId)
 {
     $getUserTypeQuery
-          = 'SELECT rents.id,snows.code,snows.brand,snows.model,snows.dailyPrice,rent_details.qtySnow,rent_details.leasingDays,rents.dateStart FROM rents INNER JOIN rent_details ON rents.id = rent_details.fk_rentId INNER JOIN snows ON snows.id = rent_details.fk_snowId WHERE rents.id = '
+          = "SELECT rents.id,snows.code,snows.brand,snows.model,snows.dailyPrice,rent_details.qtySnow,rent_details
+.leasingDays,rents.dateStart FROM rents INNER JOIN rent_details ON rents.id = rent_details.fk_rentId INNER JOIN snows ON snows.id = rent_details.fk_snowId WHERE rents.id = "
           . $rentId;
     require_once 'model/dbConnector.php';
     $queryResult = executeQuerySelect($getUserTypeQuery);

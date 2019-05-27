@@ -45,7 +45,7 @@ function getASnow($snow_code){
  * @param $snowCode : snow code to change
  * @param $change : amount to change
  */
-function updateSnow($snowCode,$change){
+function updateSnowQuantity($snowCode,$change){
     $getUserTypeQuery = "SELECT qtyAvailable FROM snows WHERE code='".$snowCode."'";
     require_once 'model/dbConnector.php';
     $oldQuantity = executeQuerySelect($getUserTypeQuery)[0]['qtyAvailable'];
