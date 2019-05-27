@@ -1,12 +1,13 @@
 -- Author :     Yannick.BAUDRAZ@cpnv.ch
 
+-- Keyword VISIBLE removed for mariaDB
 CREATE TABLE IF NOT EXISTS `rents`
 (
     `id`        INT(12) UNSIGNED NOT NULL,
     `fk_userId` INT(10) UNSIGNED NOT NULL,
     `dateStart` DATE             NOT NULL,
     PRIMARY KEY (`id`),
-    INDEX `fk_rents_users1_idx` (`fk_userId` ASC) VISIBLE,
+    INDEX `fk_rents_users1_idx` (`fk_userId` ASC),
     CONSTRAINT `fk_rents_users1`
         FOREIGN KEY (`fk_userId`)
             REFERENCES `snows`.`users` (`id`)
@@ -21,8 +22,8 @@ CREATE TABLE IF NOT EXISTS `rent_details`
     `fk_snowId`   INT(11)              NOT NULL,
     `leasingDays` SMALLINT(4) UNSIGNED NOT NULL,
     `qtySnow`     SMALLINT(6) UNSIGNED NOT NULL,
-    INDEX `fk_rents_has_snows_snows1_idx` (`fk_snowId` ASC) VISIBLE,
-    INDEX `fk_rents_has_snows_rents_idx` (`fk_rentId` ASC) VISIBLE,
+    INDEX `fk_rents_has_snows_snows1_idx` (`fk_snowId` ASC),
+    INDEX `fk_rents_has_snows_rents_idx` (`fk_rentId` ASC),
     PRIMARY KEY (`fk_rentId`, `fk_snowId`, `leasingDays`),
     CONSTRAINT `fk_rents_has_snows_rents`
         FOREIGN KEY (`fk_rentId`)
