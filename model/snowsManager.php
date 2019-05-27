@@ -39,6 +39,12 @@ function getASnow($snow_code){
 
     return $snowResults;
 }
+
+/**
+ * This function changes the quantity of a specific snowboard
+ * @param $snowCode : snow code to change
+ * @param $change : amount to change
+ */
 function updateSnow($snowCode,$change){
     $getUserTypeQuery = "SELECT qtyAvailable FROM snows WHERE code='".$snowCode."'";
     require_once 'model/dbConnector.php';
@@ -47,6 +53,12 @@ function updateSnow($snowCode,$change){
     $rentInsertQuery2 = "UPDATE snows SET qtyAvailable=".$newQuantity." WHERE code='".$snowCode."'";
     $queryResult2 = executeQueryInsert($rentInsertQuery2);
 }
+
+/**
+ * This function finds the snow id with the snow code
+ * @param $code : snow code that we want to find
+ * @return mixed : id of the that snow code
+ */
 function getSnowId($code){
     $getUserTypeQuery = "SELECT id From snows WHERE code='".$code."'";
     require_once 'model/dbConnector.php';

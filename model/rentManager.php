@@ -25,12 +25,12 @@ function saveRent($currentCartArray, $userEmail)
     $result = NULL;
     $userID = getUserID($userEmail)[0]['id'];
     $rentID = getLastRentID() + 1;
-    $rentInsertQuery1 = "INSERT INTO  rents VALUES (" . $rentID . ", " . $userID . ", DATE(NOW()))";
-    $queryResult1 = executeQueryInsert($rentInsertQuery1);
+    $rentsInsert = "INSERT INTO  rents VALUES (" . $rentID . ", " . $userID . ", DATE(NOW()))";
+    executeQueryInsert($rentsInsert);
     foreach ($currentCartArray as $item) {
         $itemID = getsnowId($item["code"]);
-        $rentInsertQuery2 = "INSERT INTO  rent_details VALUES (" . $rentID . "," . $itemID . "," . $item['nbD'] . "," . $item['qty'] . ")";
-        $queryResult2 = executeQueryInsert($rentInsertQuery2);
+        $rent_detailsInsert = "INSERT INTO  rent_details VALUES (" . $rentID . "," . $itemID . "," . $item['nbD'] . "," . $item['qty'] . ")";
+        executeQueryInsert($rent_detailsInsert);
         updateSnow($item["code"], $item["qty"]);
     }
 
@@ -39,6 +39,11 @@ function saveRent($currentCartArray, $userEmail)
     return $result;
 }
 
+/**
+ * Function that finds the last inserted Rent
+ *
+ * @return mixed : id of that last rent
+ */
 function getLastRentID()
 {
     $getUserTypeQuery = 'SELECT id FROM rents ORDER BY id DESC LIMIT 1';
@@ -50,6 +55,12 @@ function getLastRentID()
     return $queryResult[0]['id'];
 }
 
+/**
+ * Gets all data of a specific rent
+ *
+ * @param $rentId : rent we want to get
+ * @return array|null : array with rent's information
+ */
 function getOneRent($rentId)
 {
     $getUserTypeQuery
@@ -60,6 +71,13 @@ function getOneRent($rentId)
 
     return $queryResult;
 }
+
+/**
+ * Gets all data of all rents from a user
+ *
+ * @param $userEmailAddress : user who's rents we want to get
+ * @return array|null : array with all of the rents
+ */
 function getUserRent($userEmailAddress)
 {
     require_once 'model/usersManager.php';
