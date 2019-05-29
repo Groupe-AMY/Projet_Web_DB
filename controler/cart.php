@@ -79,7 +79,9 @@ function updateCartRequest($snowCode, $update, $delete, $snowLocationRequest)
             $_GET['action'] = "displayCart";
             displayCart();
         } else { // The cart doesn't have any leasing's request
+            require_once 'controler/snow.php';
             $_GET['action'] = "displaySnows";
+            $_SESSION['cart'] = [];
             displaySnows();
         }
     }
