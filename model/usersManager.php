@@ -28,7 +28,6 @@ function isLoginCorrect($userEmailAddress, $userPsw){
     if (count($queryResult) == 1)
     {
         $userHashPsw = $queryResult[0]['userHashPsw'];
-        $hashPasswordDebug = password_hash($userPsw, PASSWORD_DEFAULT);
         $result = password_verify($userPsw, $userHashPsw);
     }
     return $result;
@@ -64,11 +63,9 @@ function registerNewAccount($userEmailAddress, $userPsw){
  * @return int (1 = customer ; 2 = seller)
  */
 function getUserType($userEmailAddress){
-    $result = 1;//we fix the result to 1 -> customer
+    $result = 0;//we fix the result to 0 -> customer
 
-    $strSeparator = '\'';
-
-    $getUserTypeQuery = 'SELECT userType FROM users WHERE users.userEmailAddress =' . $strSeparator . $userEmailAddress . $strSeparator;
+    $getUserTypeQuery = "SELECT userType FROM users WHERE userEmailAddress = '$userEmailAddress'";
 
     require_once 'model/dbConnector.php';
     $queryResult = executeQuerySelect($getUserTypeQuery);
@@ -76,12 +73,16 @@ function getUserType($userEmailAddress){
     if (count($queryResult) == 1){
         $result = $queryResult[0]['userType'];
     }
+
     return $result;
 }
 
 /**
+ * Take the ID of the user by his email
+ *
  * @param $userEmailAddress
  * @rekturn array|null
+ * @return array|null
  */
 function getUserID($userEmailAddress){
     $getUserIDQuery = "SELECT id From users WHERE userEmailAddress = '$userEmailAddress'";
