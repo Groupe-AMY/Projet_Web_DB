@@ -21,8 +21,10 @@
 
 /**
  * This function is designed to redirect the user to the home page (depending on the action received by the index)
+ *
+ * @param null $errorConnection
  */
-function home()
+function home($errorConnection = NULL)
 {
     $_GET['action'] = "home";
     require "view/home.php";

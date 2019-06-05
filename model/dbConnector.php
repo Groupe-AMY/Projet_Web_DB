@@ -48,9 +48,12 @@ function executeQueryInsert($query){
 }
 
 /**
- * This function is designed to manage the database connexion. Closing will be not proceeded there. The client is responsible of this.
+ * This function is designed to manage the database connexion. Closing will be not proceeded there. The client is
+ * responsible of this.
+ *
  * @return PDO|null
  * Source : http://php.net/manual/en/pdo.construct.php
+ * @throws \NoConnectionException
  */
 function openDBConnexion (){
     $tempDbConnexion = null;
@@ -68,7 +71,10 @@ function openDBConnexion (){
         $tempDbConnexion = new PDO($dsn, $userName, $userPwd);
     }
     catch (PDOException $exception) {
-        echo 'Connection failed: ' . $exception->getMessage();
+        require_once 'fileManager.php';
+        require_once 'NoConnectionException.php';
+        require_once 'config/config.php';
+        throw new NoConnectionException();
     }
     return $tempDbConnexion;
 }

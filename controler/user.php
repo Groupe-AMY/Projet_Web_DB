@@ -20,30 +20,35 @@
  */
 function login($loginRequest)
 {
-    //if a login request was submitted
-    if (isset($loginRequest['inputUserEmailAddress']) && isset($loginRequest['inputUserPsw'])) {
-        //extract login parameters
-        $userEmailAddress = $loginRequest['inputUserEmailAddress'];
-        $userPsw = $loginRequest['inputUserPsw'];
+    try {//if a login request was submitted
+        if (isset($loginRequest['inputUserEmailAddress']) && isset($loginRequest['inputUserPsw'])) {
+            //extract login parameters
+            $userEmailAddress = $loginRequest['inputUserEmailAddress'];
+            $userPsw = $loginRequest['inputUserPsw'];
 
-        //try to check if user/psw are matching with the database
-        require_once "model/usersManager.php";
-        if (isLoginCorrect($userEmailAddress, $userPsw)) {
-            createSession($userEmailAddress);
-            if (checkHasLocations($userEmailAddress)) {
-                $_SESSION['hasLocations'] = true;
+            //try to check if user/psw are matching with the database
+            require_once "model/usersManager.php";
+            if (isLoginCorrect($userEmailAddress, $userPsw)) {
+                createSession($userEmailAddress);
+                if (checkHasLocations($userEmailAddress)) {
+                    $_SESSION['hasLocations'] = true;
+                }
+                $_GET['loginError'] = false;
+                $_GET['action'] = "home";
+                require "view/home.php";
+            } else { //if the user/psw does not match, login form appears again
+                $_GET['loginError'] = true;
+                $_GET['action'] = "login";
+                require "view/login.php";
             }
-            $_GET['loginError'] = false;
-            $_GET['action'] = "home";
-            require "view/home.php";
-        } else { //if the user/psw does not match, login form appears again
-            $_GET['loginError'] = true;
+        } else { //the user does not yet fill the form
             $_GET['action'] = "login";
             require "view/login.php";
         }
-    } else { //the user does not yet fill the form
-        $_GET['action'] = "login";
-        require "view/login.php";
+    } catch (NoConnectionException $e) {
+        $errorConnection = $e->messageGUI;
+        writeErrorLog($e->getMessage());
+        home($errorConnection);
     }
 }
 

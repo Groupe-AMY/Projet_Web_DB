@@ -10,7 +10,11 @@
 ob_start();
 $title="RentASnow - Accueil";
 ?>
-
+<?php if (!empty($errorConnection)): ?>
+  <h2 class="alert alert-error" style="text-align: center">
+    <strong><?= $errorConnection ?></strong><br>
+  </h2>
+<?php endif; ?>
 <div class="span12" id="divMain">
   <h1>Nos activités</h1>
 
