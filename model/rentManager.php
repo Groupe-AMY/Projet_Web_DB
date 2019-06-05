@@ -8,6 +8,8 @@
  *                      Fusion of the articles in the cart
  *                  13.05.2019 yannick.baudraz@cpnv.ch
  *                      Function verifyQuantity()
+ *                  03.06.2019 yannick.baudraz@cpnv.cj
+ *                      Update request "rent_detailsInsert" for new column "status"
  * Git source  :    [link]
  */
 
@@ -30,13 +32,9 @@ function saveRent($currentCartArray, $userEmail)
     foreach ($currentCartArray as $item) {
         $itemID = getSnowId($item["code"]);
         $rent_detailsInsert = "
-            INSERT INTO rent_details 
-            VALUES (
-                " . $rentID . ",
-                " . $itemID . ",
-                " . $item['nbD'] . ",
-                " . $item['qty'] . "
-            )";
+            INSERT INTO rent_details (fk_rentId, fk_snowId, leasingDays, qtySnow)
+                VALUES (" . $rentID . "," . $itemID . "," . $item['nbD'] . "," . $item['qty'] . ")
+        ";
 
         executeQueryInsert($rent_detailsInsert);
         updateSnowQuantity($item["code"], $item["qty"]);
@@ -73,7 +71,7 @@ function getLastRentID()
  */
 function getOneRent($rentId)
 {
-    $getUserTypeQuery = "
+    $getOneRentQuery = "
         SELECT rents.id,
                snows.code,
                snows.brand,
@@ -88,7 +86,7 @@ function getOneRent($rentId)
         WHERE rents.id = " . $rentId;
 
     require_once 'model/dbConnector.php';
-    $queryResult = executeQuerySelect($getUserTypeQuery);
+    $queryResult = executeQuerySelect($getOneRentQuery);
 
     return $queryResult;
 }
@@ -103,7 +101,7 @@ function getUserRent($userEmailAddress)
 {
     require_once 'model/usersManager.php';
     $userID = getUserID($userEmailAddress)[0]['id'];
-    $getUserTypeQuery = "
+    $getUserRentQuery = "
         SELECT rents.id,
                snows.code,
                snows.brand,
@@ -118,7 +116,7 @@ function getUserRent($userEmailAddress)
         WHERE rents.fk_userId = " . $userID;
 
     require_once 'model/dbConnector.php';
-    $queryResult = executeQuerySelect($getUserTypeQuery);
+    $queryResult = executeQuerySelect($getUserRentQuery);
 
     return $queryResult;
 }
