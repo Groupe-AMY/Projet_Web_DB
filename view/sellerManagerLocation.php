@@ -16,7 +16,7 @@ ob_start();
 ?>
     <h2>Gestion des retours</h2>
     <table class="table">
-        <tr><td>Client: </td> <td>Email: </td></tr>
+        <tr><td>Location: </td> <td>Email: </td></tr>
         <tr><td>Prise: </td> <td>Retour: </td></tr>
         <tr><td>Statut: </td> </tr>
     </table>

@@ -28,7 +28,7 @@ ob_start();
 
             <?php foreach ($sellerArray as $index => $article): ?>
                 <tr>
-                    <td><?= $article['id'] ?></td>
+                    <td><a href="#"><?= $article['id'] ?></a></td>
                     <td><?= $article['userEmailAddress'] ?></td>
                     <td><?= date('d/m/Y',strtotime($article['dateStart'])) ?></td>
                     <td><?= date('d/m/Y',strtotime($article['dateEnd'])) ?></td>
