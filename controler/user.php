@@ -59,32 +59,37 @@ function login($loginRequest)
  */
 function register($registerRequest)
 {
-    //variable set
-    if (isset($registerRequest['inputUserEmailAddress'])
-          && isset($registerRequest['inputUserPsw'])
-          && isset($registerRequest['inputUserPswRepeat'])) {
+    try {//variable set
+        if (isset($registerRequest['inputUserEmailAddress'])
+            && isset($registerRequest['inputUserPsw'])
+            && isset($registerRequest['inputUserPswRepeat'])) {
 
-        //extract register parameters
-        $userEmailAddress = $registerRequest['inputUserEmailAddress'];
-        $userPsw = $registerRequest['inputUserPsw'];
-        $userPswRepeat = $registerRequest['inputUserPswRepeat'];
+            //extract register parameters
+            $userEmailAddress = $registerRequest['inputUserEmailAddress'];
+            $userPsw = $registerRequest['inputUserPsw'];
+            $userPswRepeat = $registerRequest['inputUserPswRepeat'];
 
-        if ($userPsw == $userPswRepeat) {
-            require_once "model/usersManager.php";
-            if (registerNewAccount($userEmailAddress, $userPsw)) {
-                createSession($userEmailAddress);
-                $_GET['registerError'] = false;
-                $_GET['action'] = "home";
-                require "view/home.php";
+            if ($userPsw == $userPswRepeat) {
+                require_once "model/usersManager.php";
+                if (registerNewAccount($userEmailAddress, $userPsw)) {
+                    createSession($userEmailAddress);
+                    $_GET['registerError'] = false;
+                    $_GET['action'] = "home";
+                    require "view/home.php";
+                }
+            } else {
+                $_GET['registerError'] = true;
+                $_GET['action'] = "register";
+                require "view/register.php";
             }
         } else {
-            $_GET['registerError'] = true;
             $_GET['action'] = "register";
             require "view/register.php";
         }
-    } else {
-        $_GET['action'] = "register";
-        require "view/register.php";
+    } catch (NoConnectionException $e) {
+        $errorConnection = $e->messageGUI;
+        writeErrorLog($e->getMessage());
+        home($errorConnection);
     }
 }
 

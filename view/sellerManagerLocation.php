@@ -17,23 +17,23 @@ $title = 'Rent A Snow - Gestion des retours';
 ob_start();
 ?>
     <h2>Gestion des retours</h2>
-    <table class="table">
+    <table>
         <tr>
-            <td>Location: <?= $rentArray['id'] ?></td>
-            <td>Email: <?= $rentArray['userEmailAddress'] ?></td>
+            <td>Location : <?= $rentArray['id'] ?></td>
+            <td>Email : <?= $rentArray['userEmailAddress'] ?></td>
         </tr>
         <tr>
-            <td>Prise: <?= $rentArray['dateStart'] ?></td>
-            <td>Retour: <?= $rentArray['dateEnd'] ?></td>
+            <td>Prise : <?= date('d/m/Y', strtotime($rentArray['dateStart'])) ?></td>
+            <td>Retour : <?= date('d/m/Y', strtotime($rentArray['dateEnd'])) ?></td>
         </tr>
         <tr>
-            <td>Statut: <?= $rentArray['status'] ?></td>
+            <td>Statut : <?= $rentArray['status'] ?></td>
         </tr>
     </table>
-
+    <br>
     <form action="index.php?action=displayOneSellerRent" method="post">
         <article>
-            <table class="table">
+            <table class="table table-bordered table-hover">
                 <tr>
                     <th>Code</th>
                     <th>Quantité</th>
@@ -54,8 +54,8 @@ ob_start();
                                 <?= $article['status'] ?>
                             <?php else : ?>
                                 <select name="status" id="status">
-                                    <option value="En cours"></option>
-                                    <option value="Rendu"></option>
+                                    <option value="0">En cours</option>
+                                    <option value="1">Rendu</option>
                                 </select>
                             <?php endif ?>
                         </td>
@@ -66,8 +66,8 @@ ob_start();
         </article>
 
         <div class="row">
-            <a href="index.php?action=displaySellerRents">Retour à la vue d'ensemble</a>
-            <input type="submit" value="Enregistrer les modifications">
+            <a class="btn btn-secondary" href="index.php?action=displaySellerRents">Retour à la vue d'ensemble</a>
+            <input class="btn btn-success" type="submit" value="Enregistrer les modifications" style="float: right">
         </div>
     </form>
 

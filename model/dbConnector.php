@@ -73,7 +73,6 @@ function openDBConnexion (){
     catch (PDOException $exception) {
         require_once 'fileManager.php';
         require_once 'NoConnectionException.php';
-        require_once 'config/config.php';
         throw new NoConnectionException();
     }
     return $tempDbConnexion;

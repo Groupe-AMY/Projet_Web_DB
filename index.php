@@ -64,6 +64,10 @@ if (isset($_GET['action'])) {
             require_once 'controler/seller.php';
             displaySellersRent();
             break;
+        case 'displayOneSellerRent':
+            require_once 'controler/seller.php';
+            displayOneSellerRent($_GET["rentID"]);
+            break;
         default:
             home();
     }
