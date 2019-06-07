@@ -7,6 +7,7 @@
  * Created      :   03.06.2019
  * Updates      :   06.06.06.2019
  *                      Add function getOneSellerRent
+ *                      Add function getSellerRentDetails
  *
  * Git source   :   https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/model/sellersManager.php
  *
