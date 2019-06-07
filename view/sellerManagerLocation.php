@@ -7,6 +7,8 @@
  *
  * Last update :    05.06.2019 Alexandre.Fontes@cpnv.ch
  *                      Creation of the page sellerManagerLocation
+ *                  07.06.2019 Alexandre.Fontes@cpnv.ch
+ *                      Update the foreach
  * Source       :   https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/view/sellerManagerLocation.php
  */
 
@@ -16,9 +18,17 @@ ob_start();
 ?>
     <h2>Gestion des retours</h2>
     <table class="table">
-        <tr><td>Location: </td> <td>Email: </td></tr>
-        <tr><td>Prise: </td> <td>Retour: </td></tr>
-        <tr><td>Statut: </td> </tr>
+        <tr>
+            <td>Location: <?= $rent['id'] ?></td>
+            <td>Email: <?= $rent['userEmailAddress'] ?></td>
+        </tr>
+        <tr>
+            <td>Prise: <?= $rent['dateStart'] ?></td>
+            <td>Retour: <?= $rent['dateEnd'] ?></td>
+        </tr>
+        <tr>
+            <td>Statut: <?= $rent['status'] ?></td>
+        </tr>
     </table>
 
     <article>
@@ -31,13 +41,23 @@ ob_start();
                 <th>Statut</th>
             </tr>
 
-            <?php foreach ($rentArray as $index => $article): ?>
+            <?php foreach ($rentDetailsArray as $index => $article): ?>
                 <tr>
                     <td><?= $article['code'] ?></td>
                     <td><?= $article['qtySnow'] ?></td>
-                    <td><?= date('d/m/Y',strtotime($article['dateStart'])) ?></td>
-                    <td><?= date('d/m/Y',strtotime($article['dateEnd'])) ?></td>
-                    <td><?= $article['status'] ?></td>
+                    <td><?= date('d/m/Y', strtotime($article['dateStart'])) ?></td>
+                    <td><?= date('d/m/Y', strtotime($article['dateEnd'])) ?></td>
+                    <td>
+                        
+                        <?php if ($article['status'] == "Rendu") : ?>
+                            <?= $article['status'] ?>
+                        <?php else : ?>
+                            <select name="status" id="status">
+                                <option value="En cours"></option>
+                                <option value="Rendu"></option>
+                            </select>
+                        <?php endif ?>
+                    </td>
                 </tr>
             <?php endforeach ?>
         </table>
