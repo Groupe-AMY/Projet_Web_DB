@@ -68,6 +68,9 @@ if (isset($_GET['action'])) {
             require_once 'controler/seller.php';
             displayOneSellerRent($_GET["rentID"]);
             break;
+        case 'updateSellerDetailRent':
+            require_once 'controler/seller.php';
+            updateSellerDetailRentProcess($_POST);
         default:
             home();
     }

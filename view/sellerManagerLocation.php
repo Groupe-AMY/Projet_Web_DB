@@ -31,7 +31,8 @@ ob_start();
         </tr>
     </table>
     <br>
-    <form action="index.php?action=displayOneSellerRent" method="post">
+    <form action="index.php?action=updateSellerDetailRent" method="post">
+        <input type="hidden" name="rentID" value="<?= $rentArray['id'] ?>">
         <article>
             <table class="table table-bordered table-hover">
                 <tr>
@@ -53,14 +54,16 @@ ob_start();
                             <?php if ($article['status'] == "Rendu") : ?>
                                 <?= $article['status'] ?>
                             <?php else : ?>
-                                <select name="status" id="status">
+                                <select name="status<?= $index ?>" style="width: inherit">
                                     <option value="0">En cours</option>
                                     <option value="1">Rendu</option>
                                 </select>
                             <?php endif ?>
                         </td>
-                        <input type="hidden" name="statusIndex" value="<?= $index ?>">
                     </tr>
+                    <input type="hidden" name="code<?= $index ?>" value="<?= $article['code'] ?>">
+                    <input type="hidden" name="prise<?= $index ?>" value="<?= $article['dateStart'] ?>">
+                    <input type="hidden" name="retour<?= $index ?>" value="<?= $article['dateEnd'] ?>">
                 <?php endforeach ?>
             </table>
         </article>

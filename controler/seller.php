@@ -25,9 +25,17 @@ function displaySellersRent()
     require "view/sellerOverview.php";
 
 }
+
 function displayOneSellerRent($rentId){
     require_once "model/sellersManager.php";
     $rentArray=getOneSellerRent($rentId);
     $rentDetailsArray=getSellerRentDetails($rentId);
     require "view/sellerManagerLocation.php";
+}
+
+function updateSellerDetailRentProcess($updateRequestPost)
+{
+    require_once "model/sellersManager.php";
+    updateSellerDetailsRent($updateRequestPost);
+    displayOneSellerRent($updateRequestPost['rentID']);
 }

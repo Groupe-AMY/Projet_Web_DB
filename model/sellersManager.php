@@ -5,9 +5,11 @@
  * Description  :   Model file that manage the data for sellers
  *
  * Created      :   03.06.2019
- * Updates      :   06.06.06.2019
- *                      Add function getOneSellerRent
- *                      Add function getSellerRentDetails
+ * Updates      :   06.06.2019
+ *                      Add function getOneSellerRent and getSellerRentDetails
+ *                  07.06.2019
+ *                      Add function updateSellerDetailsRent and extractDataUpdateDetails
+ *
  *
  * Git source   :   https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/model/sellersManager.php
  *
@@ -33,6 +35,7 @@ function getAllSellerRents()
     require_once 'model/dbConnector.php';
     $queryResult = executeQuerySelect($getRentsQuery);
     //endregion
+
     //region Put end's date and status in the array
     foreach ($queryResult as $index => $rent) {
         $queryResult[$index]['dateEnd'] = getLastDateRent($rent['id']);
@@ -62,6 +65,7 @@ function getLastDateRent($rentID)
     require_once 'model/dbConnector.php';
     $queryResult = executeQuerySelect($getLastDateRentQuery);
     //endregion
+
     //region Get last date in a variable
     if ($queryResult) {
         $lastDate = $queryResult[0]['lastDate'];
@@ -91,6 +95,7 @@ function getRentStatus($rentId)
     require_once 'model/dbConnector.php';
     $queryResult = executeQuerySelect($getRentStatusQuery);
     //endregion
+
     //region Get status in a variable
     $rentStatus = "En cours"; // Status by default is "En cours"
     $statusSum = 0; // Needed to check if all snows are restored
@@ -164,6 +169,7 @@ function getSellerRentDetails($rentID)
     require_once 'model/dbConnector.php';
     $queryResult = executeQuerySelect($getRentsQuery);
     //endregion
+
     //region Convert coded status in human's strings
     foreach ($queryResult as $index => $rentDetail) {
         if ($rentDetail['status'] == 1) {
@@ -175,4 +181,71 @@ function getSellerRentDetails($rentID)
     //endregion
 
     return $queryResult;
+}
+
+/**
+ * Update rent's details from the seller request
+ *
+ * @param array $updateRequest : Request from the seller
+ */
+function updateSellerDetailsRent($updateRequest)
+{
+    $rentID = $updateRequest['rentID'];
+
+    $detailsRentArray = extractDataUpdateDetails($updateRequest);
+
+    //region Update status of rent's details
+    foreach ($detailsRentArray as $rentDetail) {
+        if (isset($rentDetail['status']) AND $rentDetail['status'] == 1) {
+            require_once 'snowsManager.php';
+
+            $snowID = getSnowId($rentDetail['code']);
+
+            $updateRentDetailQuery = "
+                UPDATE rent_details
+                SET status = 1
+                WHERE fk_rentID = {$rentID}
+                    AND fk_snowID = {$snowID}
+                    AND leasingDays = {$rentDetail['leasingDays']};
+            ";
+
+            executeQuerySelect($updateRentDetailQuery);
+        }
+    }
+    //endregion
+}
+
+/**
+ * Extract date from the update request when the seller want to update a rent's details
+ *
+ * @param array $updateRequest : Request from the seller. From super global form POST
+ * @return array $detailRentArray : Data extracted
+ */
+function extractDataUpdateDetails($updateRequest): array
+{
+    //region Variables initialization
+    $detailsRentArray = [];
+    $counter = 0;
+    //endregion
+
+    //region Extract data
+    foreach ($updateRequest as $index => $item) {
+        if (strstr($index, 'status')) {
+            $detailsRentArray[$counter]['status'] = $item;
+        } elseif (strstr($index, 'code')) {
+            $detailsRentArray[$counter]['code'] = $item;
+        } elseif (strstr($index, 'prise')) {
+            $detailsRentArray[$counter]['dateStart'] = $item;
+        } elseif (strstr($index, 'retour')) {
+            $difference = date(
+                  'j',
+                  strtotime($item) - strtotime($detailsRentArray[$counter]['dateStart'])
+            );
+            $detailsRentArray[$counter]['leasingDays'] = $difference - 1;
+            $counter++;
+        }
+    }
+    //endregion
+
+    return $detailsRentArray;
 }
