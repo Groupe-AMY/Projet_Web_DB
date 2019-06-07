@@ -19,15 +19,15 @@ ob_start();
     <h2>Gestion des retours</h2>
     <table class="table">
         <tr>
-            <td>Location: <?= $rent['id'] ?></td>
-            <td>Email: <?= $rent['userEmailAddress'] ?></td>
+            <td>Location: <?= $rentArray['id'] ?></td>
+            <td>Email: <?= $rentArray['userEmailAddress'] ?></td>
         </tr>
         <tr>
-            <td>Prise: <?= $rent['dateStart'] ?></td>
-            <td>Retour: <?= $rent['dateEnd'] ?></td>
+            <td>Prise: <?= $rentArray['dateStart'] ?></td>
+            <td>Retour: <?= $rentArray['dateEnd'] ?></td>
         </tr>
         <tr>
-            <td>Statut: <?= $rent['status'] ?></td>
+            <td>Statut: <?= $rentArray['status'] ?></td>
         </tr>
     </table>
 
