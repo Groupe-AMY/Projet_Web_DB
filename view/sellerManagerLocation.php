@@ -31,46 +31,51 @@ ob_start();
         </tr>
     </table>
 
-    <article>
-        <table class="table">
-            <tr>
-                <th>Code</th>
-                <th>Quantité</th>
-                <th>Prise</th>
-                <th>Retour</th>
-                <th>Statut</th>
-            </tr>
-
-            <?php foreach ($rentDetailsArray as $index => $article): ?>
+    <form action="index.php?action=displayOneSellerRent" method="post">
+        <article>
+            <table class="table">
                 <tr>
-                    <td><?= $article['code'] ?></td>
-                    <td><?= $article['qtySnow'] ?></td>
-                    <td><?= date('d/m/Y', strtotime($article['dateStart'])) ?></td>
-                    <td><?= date('d/m/Y', strtotime($article['dateEnd'])) ?></td>
-                    <td>
-                        
-                        <?php if ($article['status'] == "Rendu") : ?>
-                            <?= $article['status'] ?>
-                        <?php else : ?>
-                            <select name="status" id="status">
-                                <option value="En cours"></option>
-                                <option value="Rendu"></option>
-                            </select>
-                        <?php endif ?>
-                    </td>
+                    <th>Code</th>
+                    <th>Quantité</th>
+                    <th>Prise</th>
+                    <th>Retour</th>
+                    <th>Statut</th>
                 </tr>
-            <?php endforeach ?>
-        </table>
-    </article>
 
-    <div class="row">
-        <button style="text-align: left" class="favorite styled"
-                type="button"> Retour à la vue d'ensemble
-        </button>
-        <button style="text-align: right" class="favorite styled"
-                type="button"> Enregistrer les modifications
-        </button>
-    </div>
+                <?php foreach ($rentDetailsArray as $index => $article): ?>
+                    <tr>
+                        <td><?= $article['code'] ?></td>
+                        <td><?= $article['qtySnow'] ?></td>
+                        <td><?= date('d/m/Y', strtotime($article['dateStart'])) ?></td>
+                        <td><?= date('d/m/Y', strtotime($article['dateEnd'])) ?></td>
+                        <td>
+
+                            <?php if ($article['status'] == "Rendu") : ?>
+                                <?= $article['status'] ?>
+                            <?php else : ?>
+                                <select name="status" id="status">
+                                    <option value="En cours"></option>
+                                    <option value="Rendu"></option>
+                                </select>
+                            <?php endif ?>
+                        </td>
+                        <input type="hidden" name="statusIndex" value="<?= $index ?>">
+                    </tr>
+                <?php endforeach ?>
+            </table>
+        </article>
+
+        <div class="row">
+            <button style="text-align: left" class="favorite styled"
+                    type="button"> Retour à la vue d'ensemble
+            </button>
+            <button style="text-align: right" class="favorite styled"
+                    type="button"> Enregistrer les modifications
+            </button>
+            <a href="index.php?action=displaySellerRents">Retour à la vue d'ensemble</a>
+            <input type="submit">
+        </div>
+    </form>
 
 <?php
 $content = ob_get_clean();
