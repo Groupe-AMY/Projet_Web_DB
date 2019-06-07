@@ -66,14 +66,8 @@ ob_start();
         </article>
 
         <div class="row">
-            <button style="text-align: left" class="favorite styled"
-                    type="button"> Retour à la vue d'ensemble
-            </button>
-            <button style="text-align: right" class="favorite styled"
-                    type="button"> Enregistrer les modifications
-            </button>
             <a href="index.php?action=displaySellerRents">Retour à la vue d'ensemble</a>
-            <input type="submit">
+            <input type="submit" value="Enregistrer les modifications">
         </div>
     </form>
 
