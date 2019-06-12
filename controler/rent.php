@@ -20,19 +20,25 @@
  */
 function displayRent($wayToDisplay)
 {
-    if (isset($_SESSION['userEmailAddress'])) { // The user is logged
-        $userEmail = $_SESSION['userEmailAddress'];
-        require 'model/rentManager.php';
-        if ($wayToDisplay === 'all') { // Display all the snows
-            $rentArray = getUSerRent($userEmail);
-        } else { // Save a leasing's request and display the new location
-            $cart = $_SESSION['cart'];
-            $rentArray = saveRent($cart, $userEmail);
-            unset($_SESSION['cart']);
-            $_SESSION['hasLocations'] = true;
+    try {
+        if (isset($_SESSION['userEmailAddress'])) { // The user is logged
+            $userEmail = $_SESSION['userEmailAddress'];
+            require 'model/rentManager.php';
+            if ($wayToDisplay === 'all') { // Display all the snows
+                $rentArray = getUSerRent($userEmail);
+            } else { // Save a leasing's request and display the new location
+                $cart = $_SESSION['cart'];
+                $rentArray = saveRent($cart, $userEmail);
+                unset($_SESSION['cart']);
+                $_SESSION['hasLocations'] = true;
+            }
+            require 'view/rent.php';
+        } else {
+            require 'view/login.php';
         }
-        require 'view/rent.php';
-    } else {
-        require 'view/login.php';
+    } catch (NoConnectionException $e) {
+        $errorConnection = $e->messageGUI;
+        writeErrorLog($e->getMessage());
+        home($errorConnection);
     }
 }

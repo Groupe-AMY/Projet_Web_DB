@@ -32,12 +32,17 @@ function displayCart($error = false)
  */
 function snowLeasingRequest($snowCode, $error = false)
 {
-    require "model/snowsManager.php";
-    $snowsResults = getASnow($snowCode);
-    $_GET['action'] = "snowLeasingRequest";
-    require "view/snowLeasingRequest.php";
+    try {
+        require "model/snowsManager.php";
+        $snowsResults = getASnow($snowCode);
+        $_GET['action'] = "snowLeasingRequest";
+        require "view/snowLeasingRequest.php";
+    } catch (NoConnectionException $e) {
+        $errorConnection = $e->messageGUI;
+        writeErrorLog($e->getMessage());
+        home($errorConnection);
+    }
 }
-
 /**
  * This function designed to manage all request impacting the cart content
  *
@@ -48,41 +53,47 @@ function snowLeasingRequest($snowCode, $error = false)
  */
 function updateCartRequest($snowCode, $update, $delete, $snowLocationRequest)
 {
-    if (!isset($_SESSION['cart'])) {
-        $cart = [];
-    } else {
-        $cart = $_SESSION['cart'];
-    }
 
-    require "model/cartManager.php";
-    if ($delete === NULL) { // Add or update a leasing's request
-        $cartArrayTemp = updateCart(
-              $cart,
-              $snowCode,
-              $snowLocationRequest['inputQuantity'],
-              $snowLocationRequest['inputDays'],
-              $update
-        );
-
-        if ($cartArrayTemp != NULL) {
-            $_SESSION['cart'] = $cartArrayTemp;
-            $_GET['action'] = "displayCart";
-            displayCart();
-        } elseif ($update !== NULL) {
-            displayCart(true);
+    try {
+        if (!isset($_SESSION['cart'])) {
+            $cart = [];
         } else {
-            snowLeasingRequest($snowCode, true);
+            $cart = $_SESSION['cart'];
         }
-    } else { // Delete a leasing's request
-        if ($cartArrayTemp = deleteLocation($cart, $delete)) { // The cart still have element(s)
-            $_SESSION['cart'] = $cartArrayTemp;
-            $_GET['action'] = "displayCart";
-            displayCart();
-        } else { // The cart doesn't have any leasing's request
-            require_once 'controler/snow.php';
-            $_GET['action'] = "displaySnows";
-            $_SESSION['cart'] = [];
-            displaySnows();
+        require "model/cartManager.php";
+        if ($delete === NULL) { // Add or update a leasing's request
+            $cartArrayTemp = updateCart(
+                $cart,
+                $snowCode,
+                $snowLocationRequest['inputQuantity'],
+                $snowLocationRequest['inputDays'],
+                $update
+            );
+
+            if ($cartArrayTemp != NULL) {
+                $_SESSION['cart'] = $cartArrayTemp;
+                $_GET['action'] = "displayCart";
+                displayCart();
+            } elseif ($update !== NULL) {
+                displayCart(true);
+            } else {
+                snowLeasingRequest($snowCode, true);
+            }
+        } else { // Delete a leasing's request
+            if ($cartArrayTemp = deleteLocation($cart, $delete)) { // The cart still have element(s)
+                $_SESSION['cart'] = $cartArrayTemp;
+                $_GET['action'] = "displayCart";
+                displayCart();
+            } else { // The cart doesn't have any leasing's request
+                require_once 'controler/snow.php';
+                $_GET['action'] = "displaySnows";
+                $_SESSION['cart'] = [];
+                displaySnows();
+            }
         }
+    } catch (NoConnectionException $e) {
+        $errorConnection = $e->messageGUI;
+        writeErrorLog($e->getMessage());
+        home($errorConnection);
     }
 }

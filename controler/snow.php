@@ -20,28 +20,33 @@
  */
 function displaySnows()
 {
-    if (isset($_POST['resetCart'])) {
-        unset($_SESSION['cart']);
-    }
 
-    require_once "model/snowsManager.php";
-    $snowsResults = getSnows();
-
-    $_GET['action'] = "displaySnows";
-    if (isset($_SESSION['userType'])) {
-        switch ($_SESSION['userType']) {
-            case 1://this is a customer
-                require "view/snows.php";
-                break;
-            case 2://this a seller
-                require "view/snowsSeller.php";
-                break;
-            default:
-                require "view/snows.php";
-                break;
+    try {
+        if (isset($_POST['resetCart'])) {
+            unset($_SESSION['cart']);
         }
-    } else {
-        require "view/snows.php";
+        require_once "model/snowsManager.php";
+        $snowsResults = getSnows();
+        $_GET['action'] = "displaySnows";
+        if (isset($_SESSION['userType'])) {
+            switch ($_SESSION['userType']) {
+                case 1://this is a customer
+                    require "view/snows.php";
+                    break;
+                case 2://this a seller
+                    require "view/snowsSeller.php";
+                    break;
+                default:
+                    require "view/snows.php";
+                    break;
+            }
+        } else {
+            require "view/snows.php";
+        }
+    } catch (NoConnectionException $e) {
+        $errorConnection = $e->messageGUI;
+        writeErrorLog($e->getMessage());
+        home($errorConnection);
     }
 }
 
@@ -52,10 +57,13 @@ function displaySnows()
  */
 function displayASnow($snow_code)
 {
-    if (isset($registerRequest['inputUserEmailAddress'])) {
-        //TODO
+    try {
+        require_once "model/snowsManager.php";
+        $snowsResults = getASnow($snow_code);
+        require "view/aSnow.php";
+    } catch (NoConnectionException $e) {
+        $errorConnection = $e->messageGUI;
+        writeErrorLog($e->getMessage());
+        home($errorConnection);
     }
-    require_once "model/snowsManager.php";
-    $snowsResults = getASnow($snow_code);
-    require "view/aSnow.php";
 }

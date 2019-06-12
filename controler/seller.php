@@ -14,28 +14,36 @@
  */
 
 /**
- * Display the cart page of the user connected
- *
- *
+ * Displays all rents made on the website
  */
 function displaySellersRent()
 {
-    require_once "model/sellersManager.php";
-    $sellerRentArray=getAllSellerRents();
-    require "view/sellerOverview.php";
+    try {
+        require_once "model/sellersManager.php";
+        $sellerRentArray = getAllSellerRents();
+        require "view/sellerOverview.php";
+    } catch (NoConnectionException $e) {
+        $errorConnection = $e->messageGUI;
+        writeErrorLog($e->getMessage());
+        home($errorConnection);
+    }
 
 }
 
-function displayOneSellerRent($rentId){
-    require_once "model/sellersManager.php";
-    $rentArray=getOneSellerRent($rentId);
-    $rentDetailsArray=getSellerRentDetails($rentId);
-    require "view/sellerManagerLocation.php";
-}
-
-function updateSellerDetailRentProcess($updateRequestPost)
+/**
+ * Displays the contents of a certain rent
+ * @param int|string $rentId
+ */
+function displayOneSellerRent($rentId)
 {
-    require_once "model/sellersManager.php";
-    updateSellerDetailsRent($updateRequestPost);
-    displayOneSellerRent($updateRequestPost['rentID']);
+    try {
+        require_once "model/sellersManager.php";
+        $rentArray = getOneSellerRent($rentId);
+        $rentDetailsArray = getSellerRentDetails($rentId);
+        require "view/sellerManagerLocation.php";
+    } catch (NoConnectionException $e) {
+        $errorConnection = $e->messageGUI;
+        writeErrorLog($e->getMessage());
+        home($errorConnection);
+    }
 }
