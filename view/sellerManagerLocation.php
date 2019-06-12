@@ -9,6 +9,8 @@
  *                      Creation of the page sellerManagerLocation
  *                  07.06.2019 Alexandre.Fontes@cpnv.ch
  *                      Update the foreach
+ *                  12.06.2019 Alexandre.Fontes@cpnv.ch
+ *                      Add the inputs in the foreach
  * Source       :   https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/view/sellerManagerLocation.php
  */
 
