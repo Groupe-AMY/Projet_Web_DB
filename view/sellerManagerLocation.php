@@ -33,7 +33,7 @@ ob_start();
         </tr>
     </table>
     <br>
-    <form action="index.php?action=updateSellerDetailRent" method="post">
+    <form action="index.php?action=updateSellerDetailsRent" method="post">
         <input type="hidden" name="rentID" value="<?= $rentArray['id'] ?>">
         <article>
             <table class="table table-bordered table-hover">
