@@ -194,13 +194,11 @@ function updateSellerDetailsRent($updateRequest)
 
     $detailsRentArray = extractDataUpdateDetails($updateRequest);
 
-    //region Update status of rent's details
     foreach ($detailsRentArray as $rentDetail) {
+        //region Update status of rent's details
         if (isset($rentDetail['status']) AND $rentDetail['status'] == 1) {
-            require_once 'snowsManager.php';
-
+            require_once 'model/snowsManager.php';
             $snowID = getSnowId($rentDetail['code']);
-
             $updateRentDetailQuery = "
                 UPDATE rent_details
                 SET status = 1
@@ -208,11 +206,18 @@ function updateSellerDetailsRent($updateRequest)
                     AND fk_snowID = {$snowID}
                     AND leasingDays = {$rentDetail['leasingDays']};
             ";
-
             executeQuerySelect($updateRentDetailQuery);
+
+            require_once 'model/rentManager.php';
+            $snowQtyOFDetail = getOneRentDetail(
+                  $rentID,
+                  $snowID,
+                  $rentDetail['leasingDays']
+            )[0]['qtySnow'];
+            updateSnowQuantity($rentDetail['code'], -$snowQtyOFDetail);
         }
+        //endregion
     }
-    //endregion
 }
 
 /**

@@ -120,3 +120,16 @@ function getUserRent($userEmailAddress)
 
     return $queryResult;
 }
+
+function getOneRentDetail($rentID, $snowID, $leasingDays)
+{
+    $getRentDetailQuery = "
+        SELECT * 
+        FROM rent_details
+        WHERE fk_rentId = " . $rentID . " AND fk_snowID = " . $snowID . " AND leasingDays = " . $leasingDays . "
+    ";
+    require_once 'model/dbConnector.php';
+    $queryResult = executeQuerySelect($getRentDetailQuery);
+
+    return $queryResult;
+}
