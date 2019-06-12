@@ -47,3 +47,21 @@ function displayOneSellerRent($rentId)
         home($errorConnection);
     }
 }
+
+/**
+ * This function make the process to update a detail for a rent
+ *
+ * @param array $updateRequestPost The request for the update, from a form in POST.
+ */
+function updateSellerDetailRentProcess($updateRequestPost)
+{
+    try {
+        require_once "model/sellersManager.php";
+        updateSellerDetailsRent($updateRequestPost);
+        displayOneSellerRent($updateRequestPost['rentID']);
+    } catch (NoConnectionException $e) {
+        $errorConnection = $e->messageGUI;
+        writeErrorLog($e->getMessage());
+        home($errorConnection);
+    }
+}
