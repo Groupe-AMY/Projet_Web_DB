@@ -46,7 +46,6 @@ function writeMsgInFile($fileFullPath, $lineToWrite)
     // Open the file
     $myFile = fopen($fileFullPath, 'a');
 
-
     // Write one the file
     fwrite($myFile, $lineToWrite . "\n");
 
@@ -70,14 +69,18 @@ function writeMsgInFile($fileFullPath, $lineToWrite)
  */
 function prepareMsgToWrite($msg)
 {
-    /*Help
-	http://php.net/manual/en/function.date.php
-	*/
+    date_default_timezone_set('Europe/Zurich');
     $timeStamp = date("o-d-m H:i:s");   // Obtenir le timeStamp actuel
     $fullMsg = $timeStamp . "\t\t" . $msg;  // Concatener dans une variable le timeStamp,
+
     return $fullMsg;
 }
 
+/**
+ * Appends the error in a log file
+ *
+ * @param string $message
+ */
 function writeErrorLog($message)
 {
     //<editor-fold desc="private attributes"> //add region in phpstorm -> https://blog.jetbrains.com/phpstorm/2012/03/new-in-4-0-custom-code-folding-regions/
