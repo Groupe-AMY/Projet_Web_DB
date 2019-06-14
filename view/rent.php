@@ -8,9 +8,11 @@
  * Last update :    20.05.2019 Alexandre.Fontes@cpnv.ch
  *                      Customize the page
  *                  22.05.2019 Alexandre.Fontes@cpnv.ch
- *                      foreach of the articles
+ *                      Foreach of the articles
  *                  24.05.2019 Alexandre.Fontes@cpnv.ch
  *                      Format the date of the location
+ *                  14.06.2019 Alexandre.Fontes@cpnv.ch
+ *                      Add the column "Status" 
  * Source       :   https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/view/rent.php
  */
 
@@ -33,6 +35,7 @@ ob_start();
                 <th>Quantité</th>
                 <th>Nombre de jours</th>
                 <th>Date début de location</th>
+                <th>Status</th>
             </tr>
 
             <?php foreach ($rentArray as $index => $article): ?>
@@ -45,6 +48,7 @@ ob_start();
                     <td><?= $article['qtySnow'] ?></td>
                     <td><?= $article['leasingDays'] ?></td>
                     <td><?= date('d-m-Y',strtotime($article['dateStart'])) ?></td>
+                    <td><?= $article['status'] ?></td>
                 </tr>
             <?php endforeach ?>
         </table>
