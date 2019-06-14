@@ -91,6 +91,11 @@ function getOneRent($rentId)
 
     foreach ($queryResult as $index => $rentDetail) {
         $queryResult[$index]['status'] = convertStatusFromCode($rentDetail['status']);
+        $queryResult[$index]['onTime'] = checkReturnDate(
+              $rentDetail['dateStart'],
+              $rentDetail['leasingDays'],
+              $rentDetail['status']
+        );
     }
 
     return $queryResult;
@@ -126,6 +131,11 @@ function getUserRent($userEmailAddress)
 
     foreach ($queryResult as $index => $rentDetail) {
         $queryResult[$index]['status'] = convertStatusFromCode($rentDetail['status']);
+        $queryResult[$index]['onTime'] = checkReturnDate(
+              $rentDetail['dateStart'],
+              $rentDetail['leasingDays'],
+              $rentDetail['status']
+        );
     }
 
     return $queryResult;
@@ -162,4 +172,29 @@ function convertStatusFromCode($status)
     }
 
     return $status;
+}
+
+/**
+ * @param $dateStart
+ * @param $leasingDays
+ * @return bool
+ */
+function checkReturnDate($dateStart, $leasingDays, $status)
+{
+    $flag = true;
+
+    try {
+        if (!$status) {
+            $dateReturnTime = (new DateTime($dateStart))->modify('+' . $leasingDays . ' day');
+            $todayTime = new DateTime();
+            if ($todayTime > $dateReturnTime) {
+                $flag = false;
+            }
+        }
+    } catch (Exception $e) {
+        require_once 'model/fileManager.php';
+        writeErrorLog($e->getMessage());
+    }
+
+    return $flag;
 }
