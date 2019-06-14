@@ -71,6 +71,7 @@ if (isset($_GET['action'])) {
         case 'updateSellerDetailRent':
             require_once 'controler/seller.php';
             updateSellerDetailRentProcess($_POST);
+            break;
         default:
             home();
     }

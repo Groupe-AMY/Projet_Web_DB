@@ -79,7 +79,8 @@ function getOneRent($rentId)
                snows.dailyPrice,
                rent_details.qtySnow,
                rent_details.leasingDays,
-               rents.dateStart 
+               rents.dateStart,
+               rent_details.status
         FROM rents 
             INNER JOIN rent_details ON rents.id = rent_details.fk_rentId 
             INNER JOIN snows ON snows.id = rent_details.fk_snowId 
@@ -87,6 +88,10 @@ function getOneRent($rentId)
 
     require_once 'model/dbConnector.php';
     $queryResult = executeQuerySelect($getOneRentQuery);
+
+    foreach ($queryResult as $index => $rentDetail) {
+        $queryResult[$index]['status'] = convertStatusFromCode($rentDetail['status']);
+    }
 
     return $queryResult;
 }
@@ -109,7 +114,8 @@ function getUserRent($userEmailAddress)
                snows.dailyPrice,
                rent_details.qtySnow,
                rent_details.leasingDays,
-               rents.dateStart 
+               rents.dateStart,
+               rent_details.status
         FROM rents 
             INNER JOIN rent_details ON rents.id = rent_details.fk_rentId 
             INNER JOIN snows ON snows.id = rent_details.fk_snowId 
@@ -117,6 +123,10 @@ function getUserRent($userEmailAddress)
 
     require_once 'model/dbConnector.php';
     $queryResult = executeQuerySelect($getUserRentQuery);
+
+    foreach ($queryResult as $index => $rentDetail) {
+        $queryResult[$index]['status'] = convertStatusFromCode($rentDetail['status']);
+    }
 
     return $queryResult;
 }
@@ -132,4 +142,24 @@ function getOneRentDetail($rentID, $snowID, $leasingDays)
     $queryResult = executeQuerySelect($getRentDetailQuery);
 
     return $queryResult;
+}
+
+/**
+ * Convert the status of a detail's rent from his database's code
+ *
+ * @param int $status
+ * @return string $status
+ *
+ * @example status is 0, return "En cours"
+ *          status is 1, return "Rendu"
+ */
+function convertStatusFromCode($status)
+{
+    if ($status == 1) {
+        $status = 'Rendu';
+    } else {
+        $status = 'En cours';
+    }
+
+    return $status;
 }

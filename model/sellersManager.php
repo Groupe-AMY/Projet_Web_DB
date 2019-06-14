@@ -171,12 +171,9 @@ function getSellerRentDetails($rentID)
     //endregion
 
     //region Convert coded status in human's strings
+    require_once 'model/rentManager.php';
     foreach ($queryResult as $index => $rentDetail) {
-        if ($rentDetail['status'] == 1) {
-            $queryResult[$index]['status'] = 'Rendu';
-        } else {
-            $queryResult[$index]['status'] = 'En cours';
-        }
+        $queryResult[$index]['status'] = convertStatusFromCode($rentDetail['status']);
     }
     //endregion
 
