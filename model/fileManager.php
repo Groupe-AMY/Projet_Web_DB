@@ -45,6 +45,7 @@ function writeMsgInFile($fileFullPath, $lineToWrite)
 {
     // Open the file
     $myFile = fopen($fileFullPath, 'a');
+    echo $fileFullPath;
 
     // Write one the file
     fwrite($myFile, $lineToWrite . "\n");
