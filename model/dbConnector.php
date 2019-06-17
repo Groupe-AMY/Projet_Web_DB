@@ -11,39 +11,44 @@
 
 /**
  * This function is designed to execute a query received as parameter
- * @param $query : must be correctly build for sql (synthaxis) but the protection against sql injection will be done there
+ *
+ * @param $query : must be correctly build for sql (synthaxis) but the protection against sql injection will be done
+ *               there
  * @return array|null : get the query result (can be null)
- * Source : http://php.net/manual/en/pdo.prepare.php
+ * @source : http://php.net/manual/en/pdo.prepare.php
+ * @throws \NoConnectionException
  */
-function executeQuerySelect($query){
-    $queryResult = null;
+function executeQuerySelect($query)
+{
+    $queryResult = NULL;
 
     $dbConnexion = openDBConnexion();//open database connexion
-    if ($dbConnexion != null)
-    {
+    if ($dbConnexion != NULL) {
         $statement = $dbConnexion->prepare($query);//prepare query
         $statement->execute();//execute query
         $queryResult = $statement->fetchAll();//prepare result for client
     }
-    $dbConnexion = null;//close database connexion
+    $dbConnexion = NULL;//close database connexion
     return $queryResult;
 }
 
 /**
  * This function is designed to insert value in database
+ *
  * @param $query
- * @return bool|null : $statement->execute() returne true is the insert was successful
+ * @return bool|null : $statement->execute() return true is the insert was successful
+ * @throws \NoConnectionException
  */
-function executeQueryInsert($query){
-    $queryResult = null;
+function executeQueryInsert($query)
+{
+    $queryResult = NULL;
 
     $dbConnexion = openDBConnexion();//open database connexion
-    if ($dbConnexion != null)
-    {
+    if ($dbConnexion != NULL) {
         $statement = $dbConnexion->prepare($query);//prepare query
         $queryResult = $statement->execute();//execute query
     }
-    $dbConnexion = null;//close database connexion
+    $dbConnexion = NULL;//close database connexion
     return $queryResult;
 }
 
@@ -55,8 +60,9 @@ function executeQueryInsert($query){
  * Source : http://php.net/manual/en/pdo.construct.php
  * @throws \NoConnectionException
  */
-function openDBConnexion (){
-    $tempDbConnexion = null;
+function openDBConnexion()
+{
+    $tempDbConnexion = NULL;
 
     $sqlDriver = 'mysql';
     $hostname = 'localhost';
@@ -67,10 +73,9 @@ function openDBConnexion (){
     $userPwd = '123qweasD$';
     $dsn = $sqlDriver . ':host=' . $hostname . ';dbname=' . $dbName . ';port=' . $port . ';charset=' . $charset;
 
-    try{
+    try {
         $tempDbConnexion = new PDO($dsn, $userName, $userPwd);
-    }
-    catch (PDOException $exception) {
+    } catch (PDOException $exception) {
         require_once 'fileManager.php';
         require_once 'NoConnectionException.php';
         throw new NoConnectionException();

@@ -12,7 +12,9 @@
 
 /**
  * This function is designed to get all active snows
+ *
  * @return array : containing all information about snows. Array can be empty.
+ * @throws \NoConnectionException
  */
 function getSnows(){
     $snowsQuery = 'SELECT code, brand, model, snowLength, dailyPrice, qtyAvailable, photo, active FROM snows';
@@ -25,8 +27,10 @@ function getSnows(){
 
 /**
  * This function is designed to get only one snow
+ *
  * @param $snow_code : snow code to display (selected by the user)
  * @return array|null : snow to display. Can be empty.
+ * @throws \NoConnectionException
  */
 function getASnow($snow_code){
     $strgSeparator = '\'';
@@ -42,8 +46,10 @@ function getASnow($snow_code){
 
 /**
  * This function changes the quantity of a specific snowboard
+ *
  * @param $snowCode : snow code to change
- * @param $change : amount to change
+ * @param $change   : amount to change
+ * @throws \NoConnectionException
  */
 function updateSnowQuantity($snowCode,$change){
     $getUserTypeQuery = "SELECT qtyAvailable FROM snows WHERE code='".$snowCode."'";
@@ -56,8 +62,10 @@ function updateSnowQuantity($snowCode,$change){
 
 /**
  * This function finds the snow id with the snow code
+ *
  * @param $code : snow code that we want to find
  * @return mixed : id of the that snow code
+ * @throws \NoConnectionException
  */
 function getSnowId($code){
     $getUserTypeQuery = "SELECT id From snows WHERE code='".$code."'";

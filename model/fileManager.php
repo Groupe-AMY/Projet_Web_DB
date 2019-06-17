@@ -18,15 +18,11 @@
  * -The path will be found by the function
  *
  * @param $fName : The file name to be append to the path
- * @return  [String] full path to the log file expressed as a string
+ * @return string full path to the log file expressed as a string
  * @example File Name : testFile.log / after function : [pathToFile]\testFile.log
  */
 function setFullPath($fName)
 {
-    /* Help
-        get current directory -> http://php.net/manual/en/function.getcwd.php
-    */
-
     $currentPath = getcwd();
 
     $tempPath = $currentPath . "" . $fName;
@@ -57,7 +53,6 @@ function writeMsgInFile($fileFullPath, $lineToWrite)
  * This function is designed to prepare the message to be written in the log
  *
  * @param $msg         : Contents the message
- * @param $levelNumber : Contents the level of message ("Warning", "Info",...)
  * @return string : Gets the message ready to be written
  * @example INPUT : $msg = "My message"
  *                     INPUT : $levelNumber = 1

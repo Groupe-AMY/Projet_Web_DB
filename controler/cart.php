@@ -47,9 +47,9 @@ function snowLeasingRequest($snowCode, $error = false)
  * This function designed to manage all request impacting the cart content
  *
  * @param string|int  $snowCode
- * @param null|string $update
- * @param null|string $delete
- * @param array       $snowLocationRequest
+ * @param null|string $update              : To say if it's an update
+ * @param null|string $delete              : To say if it's a delete
+ * @param array       $snowLocationRequest : Request from the user
  */
 function updateCartRequest($snowCode, $update, $delete, $snowLocationRequest)
 {
@@ -63,11 +63,11 @@ function updateCartRequest($snowCode, $update, $delete, $snowLocationRequest)
         require "model/cartManager.php";
         if ($delete === NULL) { // Add or update a leasing's request
             $cartArrayTemp = updateCart(
-                $cart,
-                $snowCode,
-                $snowLocationRequest['inputQuantity'],
-                $snowLocationRequest['inputDays'],
-                $update
+                  $cart,
+                  $snowCode,
+                  $snowLocationRequest['inputQuantity'],
+                  $snowLocationRequest['inputDays'],
+                  $update
             );
 
             if ($cartArrayTemp != NULL) {

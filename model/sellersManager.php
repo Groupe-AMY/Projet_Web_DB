@@ -21,6 +21,7 @@
  *
  * @return null|array $allRents : If OK, contains location's ID, user's mail, location's start date, locations's end
  * date and status of the location's details.
+ * @throws \NoConnectionException
  */
 function getAllSellerRents()
 {
@@ -51,6 +52,7 @@ function getAllSellerRents()
  *
  * @param $rentID
  * @return string|null $lastDate : Latest date of the location
+ * @throws \NoConnectionException
  */
 function getLastDateRent($rentID)
 {
@@ -82,6 +84,7 @@ function getLastDateRent($rentID)
  *
  * @param $rentId
  * @return string $status : Can be "En cours", "Rendu Partiel", "Rendu".
+ * @throws \NoConnectionException
  */
 function getRentStatus($rentId)
 {
@@ -121,7 +124,8 @@ function getRentStatus($rentId)
  * Get one rent for the seller's view
  *
  * @param string|int $rentID
- * @return array|null $rent
+ * @return array|null $rent : The rent
+ * @throws \NoConnectionException
  */
 function getOneSellerRent($rentID)
 {
@@ -150,7 +154,8 @@ function getOneSellerRent($rentID)
  * Get details of a rent for the seller's view
  *
  * @param string|int $rentID
- * @return array|null $queryResult
+ * @return array|null $queryResult : If all it's ok, all the article of the rent
+ * @throws \NoConnectionException
  */
 function getSellerRentDetails($rentID)
 {
@@ -184,6 +189,7 @@ function getSellerRentDetails($rentID)
  * Update rent's details from the seller request
  *
  * @param array $updateRequest : Request from the seller
+ * @throws \NoConnectionException
  */
 function updateSellerDetailsRent($updateRequest)
 {

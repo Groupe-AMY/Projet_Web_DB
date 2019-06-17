@@ -25,16 +25,16 @@
  * @param null       $indexLocation      : Index of the snow to add
  * @return array $cartUpdated : Cart after the modification or null if the verification were unsuccessful
  */
-function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howManyLeasingDays, $indexLocation = null)
+function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howManyLeasingDays, $indexLocation = NULL)
 {
-    $cartUpdated = null;
+    $cartUpdated = NULL;
     $flagCart = false;
     $quantityAll = $qtyOfSnowsToAdd;
     $flagQuantity = false;
 
     // If we don't want to change a location
-    if ($indexLocation === null) {
-        if ($currentCartArray != null) {
+    if ($indexLocation === NULL) {
+        if ($currentCartArray != NULL) {
             foreach ($currentCartArray as $index => $location) {
                 if ($snowCodeToAdd === $location["code"]) {
                     // Get all the quantity to add, for the verification of the quantity
@@ -56,10 +56,10 @@ function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howMan
         // If we want to add a new location in the cart
         if (!$flagCart && $flagQuantity) {
             $newSnowLeasing = [
-                'code' => $snowCodeToAdd,
-                'dateD' => Date("d-m-y"),
-                'nbD' => $howManyLeasingDays,
-                'qty' => $qtyOfSnowsToAdd
+                  'code' => $snowCodeToAdd,
+                  'dateD' => Date("d-m-y"),
+                  'nbD' => $howManyLeasingDays,
+                  'qty' => $qtyOfSnowsToAdd,
             ];
             array_push($cartUpdated, $newSnowLeasing);
         }
@@ -74,9 +74,9 @@ function updateCart($currentCartArray, $snowCodeToAdd, $qtyOfSnowsToAdd, $howMan
         if (verifyQuantity($snowCodeToAdd, $quantityAll, $qtyOfSnowsToAdd)) {
             // Take adding information in an array, to not surcharging the functions with too many parameters.
             $addInformationArray = [
-                'quantity' => $qtyOfSnowsToAdd,
-                'leasingDays' => $howManyLeasingDays,
-                'index' => $indexLocation
+                  'quantity' => $qtyOfSnowsToAdd,
+                  'leasingDays' => $howManyLeasingDays,
+                  'index' => $indexLocation,
             ];
             $cartUpdated = changeLocation($currentCartArray, $addInformationArray);
         }
@@ -137,8 +137,3 @@ function deleteLocation($cart, $index)
 
     return $cart;
 }
-
-//in_array https://www.php.net/manual/en/function.in-array.php
-//array_push() https://www.php.net/manual/en/function.array-push.php
-//array_search
-//unset

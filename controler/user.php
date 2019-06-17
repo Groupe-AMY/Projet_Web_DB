@@ -55,7 +55,7 @@ function login($loginRequest)
 /**
  * This function is designed
  *
- * @param $registerRequest
+ * @param $registerRequest : Request from the user to register
  */
 function register($registerRequest)
 {

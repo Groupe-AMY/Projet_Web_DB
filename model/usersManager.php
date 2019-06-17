@@ -12,9 +12,11 @@
 
 /**
  * This function is designed to verify user's login
+ *
  * @param $userEmailAddress
  * @param $userPsw
  * @return bool : "true" only if the user and psw match the database. In all other cases will be "false".
+ * @throws \NoConnectionException
  */
 function isLoginCorrect($userEmailAddress, $userPsw){
     $result = false;
@@ -35,9 +37,11 @@ function isLoginCorrect($userEmailAddress, $userPsw){
 
 /**
  * This function is designed to register a new account
+ *
  * @param $userEmailAddress
  * @param $userPsw
- * @return bool|null
+ * @return bool|null $result : If all ok,
+ * @throws \NoConnectionException
  */
 function registerNewAccount($userEmailAddress, $userPsw){
     $result = false;

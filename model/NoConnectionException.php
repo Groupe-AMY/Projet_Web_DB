@@ -13,6 +13,9 @@
  * Created with PhpStorm.
  */
 
+/**
+ * Class NoConnectionException
+ */
 class NoConnectionException extends Exception
 {
     public $messageGUI = "Notre site est en maintenance, merci pour votre compréhension";

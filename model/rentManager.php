@@ -18,7 +18,8 @@
  *
  * @param $currentCartArray
  * @param $userEmail
- * @return array
+ * @return array $result : Result of the query, the rent saved normally
+ * @throws \NoConnectionException
  */
 function saveRent($currentCartArray, $userEmail)
 {
@@ -50,6 +51,7 @@ function saveRent($currentCartArray, $userEmail)
  * Function that finds the last inserted Rent
  *
  * @return mixed : id of that last rent
+ * @throws \NoConnectionException
  */
 function getLastRentID()
 {
@@ -68,6 +70,7 @@ function getLastRentID()
  *
  * @param $rentId : rent we want to get
  * @return array|null : array with rent's information
+ * @throws \NoConnectionException
  */
 function getOneRent($rentId)
 {
@@ -106,6 +109,7 @@ function getOneRent($rentId)
  *
  * @param $userEmailAddress : user who's rents we want to get
  * @return array|null : array with all of the rents
+ * @throws \NoConnectionException
  */
 function getUserRent($userEmailAddress)
 {
@@ -141,6 +145,15 @@ function getUserRent($userEmailAddress)
     return $queryResult;
 }
 
+/**
+ * Get one article for a rent according to his rentId, snowID and leasing's days
+ *
+ * @param string|int $rentID
+ * @param string|int $snowID
+ * @param string|int $leasingDays
+ * @return array|null $status
+ * @throws \NoConnectionException
+ */
 function getOneRentDetail($rentID, $snowID, $leasingDays)
 {
     $getRentDetailQuery = "
@@ -175,9 +188,12 @@ function convertStatusFromCode($status)
 }
 
 /**
- * @param $dateStart
- * @param $leasingDays
- * @return bool
+ * This function check if the article is late or not
+ *
+ * @param string $dateStart
+ * @param string|int $leasingDays
+ * @param string|int $status
+ * @return bool $flag : True if the article is not late, else false
  */
 function checkReturnDate($dateStart, $leasingDays, $status)
 {
