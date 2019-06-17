@@ -14,8 +14,7 @@
 *                       require in each actions
  * Git source  :    https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/index.php
  */
-error_reporting(E_ALL);
-ini_set('display_errors', true);
+
 session_start();
 require_once 'controler/controler.php';
 

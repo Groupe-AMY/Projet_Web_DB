@@ -18,7 +18,7 @@
  * -The path will be found by the function
  *
  * @param $fName : The file name to be append to the path
- * @return string full path to the log file expressed as a string
+ * @return  [String] full path to the log file expressed as a string
  * @example File Name : testFile.log / after function : [pathToFile]\testFile.log
  */
 function setFullPath($fName)
@@ -29,7 +29,7 @@ function setFullPath($fName)
 
     $currentPath = getcwd();
 
-    $tempPath = $currentPath . $fName;
+    $tempPath = $currentPath . "\\" . $fName;
 
     return $tempPath;
 }
@@ -45,7 +45,6 @@ function writeMsgInFile($fileFullPath, $lineToWrite)
 {
     // Open the file
     $myFile = fopen($fileFullPath, 'a');
-    echo $fileFullPath;
 
     // Write one the file
     fwrite($myFile, $lineToWrite . "\n");

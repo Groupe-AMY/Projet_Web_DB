@@ -12,7 +12,7 @@
  *                  24.05.2019 Alexandre.Fontes@cpnv.ch
  *                      Format the date of the location
  *                  14.06.2019 Alexandre.Fontes@cpnv.ch
- *                      Add the column "Status" 
+ *                      Add the column "Status"
  * Source       :   https://github.com/Groupe-AMY/Projet_Web_DB/blob/master/view/rent.php
  */
 
@@ -48,7 +48,11 @@ ob_start();
                     <td><?= $article['qtySnow'] ?></td>
                     <td><?= $article['leasingDays'] ?></td>
                     <td><?= date('d-m-Y',strtotime($article['dateStart'])) ?></td>
-                    <td><?= $article['status'] ?></td>
+                    <?php if ($article['onTime']) : ?>
+                        <td><?= $article['status'] ?></td>
+                    <?php else : ?>
+                        <td class="text-error">En retard</td>
+                    <?php endif; ?>
                 </tr>
             <?php endforeach ?>
         </table>

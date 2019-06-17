@@ -52,15 +52,12 @@ ob_start();
                         <td><?= date('d/m/Y', strtotime($article['dateStart'])) ?></td>
                         <td><?= date('d/m/Y', strtotime($article['dateEnd'])) ?></td>
                         <td>
-
-                            <?php if ($article['status'] == "Rendu") : ?>
-                                <?= $article['status'] ?>
-                            <?php else : ?>
-                                <select name="status<?= $index ?>" style="width: inherit">
-                                    <option value="0">En cours</option>
-                                    <option value="1">Rendu</option>
-                                </select>
-                            <?php endif ?>
+                            <?php $articleReturned = ($article['status'] == "Rendu") ?>
+                             <select name="<?php if ($articleReturned) echo 'Rendu"'; else echo 'status'; echo $index; ?>"
+                                     style="width: inherit" <?php if ($articleReturned) echo 'disabled'?>>
+                                 <option value="0">En cours</option>
+                                 <option value="1" <?php if ($article['status'] == "Rendu") echo ' selected'?>>Rendu</option>
+                            </select>
                         </td>
                     </tr>
                     <input type="hidden" name="code<?= $index ?>" value="<?= $article['code'] ?>">
