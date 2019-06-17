@@ -17,8 +17,7 @@
 
 session_start();
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
+2019-16-06 14:53:21             No connection with Database
 
 require_once 'controler/controler.php';
 

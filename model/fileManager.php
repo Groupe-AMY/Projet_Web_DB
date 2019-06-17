@@ -29,7 +29,7 @@ function setFullPath($fName)
 
     $currentPath = getcwd();
 
-    $tempPath = $currentPath . "\\" . $fName;
+    $tempPath = $currentPath . "" . $fName;
 
     return $tempPath;
 }
