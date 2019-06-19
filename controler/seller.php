@@ -19,9 +19,13 @@
 function displaySellersRent()
 {
     try {
-        require_once "model/sellersManager.php";
-        $sellerRentArray = getAllSellerRents();
-        require "view/sellerOverview.php";
+        if (isset($_SESSION['userType']) && $_SESSION['userType'] == 1) {
+            require_once "model/sellersManager.php";
+            $sellerRentArray = getAllSellerRents();
+            require "view/sellerOverview.php";
+        } else {
+            home();
+        }
     } catch (NoConnectionException $e) {
         $errorConnection = $e->messageGUI;
         writeErrorLog($e->getMessage());
